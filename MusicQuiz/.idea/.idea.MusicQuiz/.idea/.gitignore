@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/modules.xml
+/contentModel.xml
+/.idea.MusicQuiz.iml
+# Datasource local storage ignored files
+/../../../../../../../:\GitHub\MusicQuiz\MusicQuiz\.idea\.idea.MusicQuiz\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
