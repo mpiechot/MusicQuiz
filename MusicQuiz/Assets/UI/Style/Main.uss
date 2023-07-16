@@ -1,0 +1,23 @@
+Label {
+    color: rgb(138, 138, 138);
+}
+
+Button {
+    border-color: black;
+    background-color: rgb(68, 68, 68);
+}
+
+Button:hover {
+    border-color: black;
+    background-color: rgb(51, 51, 51);
+}
+
+Button:active {
+    border-color: black;
+    background-color: rgb(51, 51, 51);
+    color: rgba(24, 24, 24, 255);
+    border-left-color: rgb(138, 138, 138);
+    border-right-color: rgb(138, 138, 138);
+    border-top-color: rgb(138, 138, 138);
+    border-bottom-color: rgb(138, 138, 138);
+}

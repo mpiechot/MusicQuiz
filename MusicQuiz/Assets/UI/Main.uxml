@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style/Main.uss?fileID=7433441132597879392&amp;guid=1b7fa317c9730d049b43b1797422b203&amp;type=3#Main" />
+    <ui:VisualElement name="main" style="background-image: url(&apos;project://database/Assets/Sprites/AppBG.psd?fileID=2800000&amp;guid=fad1732d080b4e249a8bfbce45c54d04&amp;type=3#AppBG&apos;); width: 100%; height: 100%; -unity-background-scale-mode: scale-and-crop;">
+        <ui:VisualElement name="header" picking-mode="Ignore" style="height: auto;">
+            <ui:Label text="Music Quiz" display-tooltip-when-elided="true" name="logo" picking-mode="Ignore" style="width: 100%; -unity-text-align: middle-center; font-size: 26px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); -unity-font-style: bold; margin-top: 5px; margin-bottom: 5px; color: rgb(0, 255, 150);" />
+            <ui:Label text="Wähle eine Kategorie" display-tooltip-when-elided="true" name="instruction" picking-mode="Ignore" style="margin-bottom: 6px; font-size: 12px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); margin-left: 8px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="content">
+            <ui:VisualElement name="questionPanel" style="flex-direction: row; height: 70%;">
+                <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" mode="Horizontal" vertical-scroller-visibility="Hidden" name="questionScroller" style="width: auto; flex-grow: 1;">
+                    <ui:VisualElement name="questions" style="flex-direction: row;">
+                        <ui:VisualElement name="empty" style="width: 60px;" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/QuestionBG.psd?fileID=2800000&amp;guid=393791c6b1390374f8e4400400f4c130&amp;type=3#QuestionBG&apos;); width: 60px; height: auto; -unity-background-image-tint-color: rgb(53, 53, 53); justify-content: center; align-items: center; flex-direction: row; position: absolute;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="categoryLbl" style="-unity-text-align: middle-center; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); font-size: 10%; color: rgb(0, 255, 150); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="answerPanel" style="flex-direction: row; margin-top: 0; height: 80%;">
+                <ui:TextField text="test" name="answer" style="flex-grow: 1; margin-left: 6px; font-size: 16px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); padding-left: 0;" />
+                <ui:Button text="Check" display-tooltip-when-elided="true" name="checkButton" style="-unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); font-size: 18px; color: rgb(0, 255, 150); padding-top: 6px; padding-bottom: 1px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="footer" style="flex-grow: 1;">
+            <ui:Label text="Tipps:" display-tooltip-when-elided="true" name="tippLabel" picking-mode="Ignore" style="font-size: 18px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); margin-left: 6px; margin-top: 10px; margin-bottom: 6px; color: rgb(0, 255, 150); display: none;" />
+            <ui:VisualElement name="tippContainer" style="margin-left: 16px; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="tipp1" picking-mode="Ignore" style="font-size: 16px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); margin-bottom: 8px;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="tipp2" picking-mode="Ignore" style="font-size: 16px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); margin-bottom: 8px;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="tipp3" picking-mode="Ignore" style="font-size: 16px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); margin-bottom: 8px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="space" style="flex-grow: 1;" />
+            <ui:VisualElement name="buttonBox" style="flex-direction: row; margin-left: 6px; -unity-text-align: lower-left; justify-content: flex-start; align-items: auto; bottom: auto; margin-bottom: 8px;">
+                <ui:Button text="Back" display-tooltip-when-elided="true" name="backButton" style="font-size: 18px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); padding-top: 6px; padding-left: 16px; padding-right: 16px; padding-bottom: 4px; color: rgb(0, 255, 150); background-color: rgb(41, 41, 41);" />
+                <ui:Button text="Tipp" display-tooltip-when-elided="true" name="tippButton" style="font-size: 18px; -unity-font: url(&apos;project://database/Assets/Textmesh%20Pro/Fonts/Langar-Regular.ttf?fileID=12800000&amp;guid=c23a57d9c8ccbbb4d887758ee809f7fc&amp;type=3#Langar-Regular&apos;); padding-top: 6px; padding-left: 16px; padding-right: 16px; padding-bottom: 4px; color: rgb(13, 230, 141); background-color: rgb(41, 41, 41); display: none;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

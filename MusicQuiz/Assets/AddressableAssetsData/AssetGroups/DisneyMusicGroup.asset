@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DisneyMusicGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: DisneyMusicGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1f819b3bee6525e4fa8bc65ab26ae9d9
+  m_SerializeEntries:
+  - m_GUID: 925ef133e66d61f418f8f30bce7f06ac
+    m_Address: Assets/Music/Disney
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5c6d3f71516801c47bc2e3c1bfc0f8d1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 91424978664926e43bbea3f5fe17536b, type: 2}
+    - {fileID: 11400000, guid: eb0334ce24559e34b99e6e34321aabfc, type: 2}
