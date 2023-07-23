@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b89738c97f4ee459544d6a691a731d, type: 3}
+  m_Name: MusicQuizScreens
+  m_EditorClassIdentifier: 
+  categoryScreenPrefab: {fileID: 2720520670573492499, guid: d9d04f535e71bcf45a89afb92b153e18, type: 3}
+  quizScreenPrefab: {fileID: 7262182138084161216, guid: cf224cdb0120faa4bad0ecd340eb4df5, type: 3}

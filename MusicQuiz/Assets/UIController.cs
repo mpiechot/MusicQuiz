@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField]
     private Sprite questionSprite;
-    
-    private Questions questions;
+
     private Button checkButton;
     private Button backButton;
     private Button tippButton;
@@ -24,10 +23,10 @@ public class UIController : MonoBehaviour
     private VisualElement mainContainer;
     private List<Button> questionButtons = new List<Button>();
     private ScrollView questionScroller;
-    
+
     public event EventHandler<string> CheckAnswerEvent;
     public event EventHandler TippEvent;
-    
+
 
 
     // Start is called before the first frame update
@@ -63,7 +62,7 @@ public class UIController : MonoBehaviour
     {
         var givenAnswer = inputField.text;
         CheckAnswerEvent?.Invoke(this, givenAnswer);
-        
+
     }
 
     void OnBackButtonPressed()
@@ -74,21 +73,21 @@ public class UIController : MonoBehaviour
     void OnTippButtonPressed()
     {
         Debug.Log("OnTippButtonPressed");
-        TippEvent?.Invoke(this,EventArgs.Empty);
+        TippEvent?.Invoke(this, EventArgs.Empty);
     }
 
-    public Button CreateQuestion(QuestionComponent questionComp)
+    public Button CreateQuestion()
     {
         Button questionButton = new Button();
         questionButton.style.backgroundImage = new StyleBackground(questionSprite);
         questionButton.style.width = 60;
 
         questionButton.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0));
-        questionButton.style.unityBackgroundImageTintColor = new Color(.2f,.2f,.2f);
+        questionButton.style.unityBackgroundImageTintColor = new Color(.2f, .2f, .2f);
         questionButton.style.color = Color.black;
         questionButton.style.fontSize = 22;
         questionButton.style.unityFontStyleAndWeight = new StyleEnum<FontStyle>(FontStyle.Bold);
-        
+
         questionButton.style.borderBottomWidth = 0;
         questionButton.style.borderTopWidth = 0;
         questionButton.style.borderLeftWidth = 0;
@@ -106,7 +105,7 @@ public class UIController : MonoBehaviour
         questionContainer.Add(questionButton);
         return questionButton;
     }
-    
+
     public void ChangeColorScheme(Color color)
     {
         categoryLbl.style.color = color;
@@ -140,13 +139,17 @@ public class UIController : MonoBehaviour
         Debug.Log("Show Tipp: " + tippLevel);
         switch (tippLevel)
         {
-            case 0: tipp1.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
+            case 0:
+                tipp1.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
                 break;
-            case 1: tipp2.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
+            case 1:
+                tipp2.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
                 break;
-            case 2: tipp3.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
+            case 2:
+                tipp3.text = "\nTipp " + (tippLevel + 1) + ": " + tipp;
                 break;
-            default: Debug.LogError("Asked for unexpected Tipp!");
+            default:
+                Debug.LogError("Asked for unexpected Tipp!");
                 break;
         }
     }
