@@ -21,6 +21,11 @@ namespace MusicQuiz.Disks
             {
                 currentClip?.ReleaseAsset();
             }
+            else if (audioToLoad.IsDone)
+            {
+                Restart();
+                return;
+            }
 
             currentClip = audioToLoad;
 

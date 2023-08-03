@@ -4,7 +4,6 @@ using MusicQuiz.Disks;
 using MusicQuiz.Exceptions;
 using MusicQuiz.Extensions;
 using MusicQuiz.Management;
-using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -19,14 +18,15 @@ namespace MusicQuiz.Screens
         [SerializeField]
         private TMP_InputField? answerInputField;
 
-        [SerializeField]
-        private TMP_Dropdown? difficultyDropdown;
-
-        private QuizManager? quizManager;
+        private QuestionSelectionManager? quizManager;
         private QuestionDisk? diskPrefab;
         private DiskPlayer? diskPlayer;
 
         private TMP_InputField AnswerInputField => answerInputField != null ? answerInputField : throw new SerializeFieldNotAssignedException();
+
+        private DiskPlayer DiskPlayer => diskPlayer != null ? diskPlayer : throw new SerializeFieldNotAssignedException();
+
+        private QuestionSelectionManager QuestionSelectionManager => quizManager != null ? quizManager : throw new SerializeFieldNotAssignedException();
 
         /// <summary>
         ///     Initializes the QuizScreen.
@@ -35,15 +35,9 @@ namespace MusicQuiz.Screens
         /// <param name="diskPlayer">The diskPlayer to use.</param>
         public void Initialize(AppData appData)
         {
-            SerializeFieldNotAssignedException.ThrowIfNull(difficultyDropdown, nameof(difficultyDropdown));
-
             diskPlayer = GameObject.FindObjectOfType<DiskPlayer>();
-            quizManager = new QuizManager(diskPlayer);
+            quizManager = new QuestionSelectionManager(diskPlayer);
             diskPrefab = appData.QuestionDiskPrefab;
-
-            difficultyDropdown.ClearOptions();
-            var difficulties = Enum.GetValues(typeof(QuestionDifficulty)).Cast<QuestionDifficulty>();
-            difficultyDropdown.AddOptions(difficulties.Select(x => x.ToString()).ToList());
         }
 
         /// <summary>
@@ -56,7 +50,12 @@ namespace MusicQuiz.Screens
 
             gameObject.SetActive(true);
 
-            var shuffledQuestions = categoryToload.Questions.Shuffle().ToList();
+            var shuffledQuestions = categoryToload.Questions
+                .GroupBy(question => question.Difficulty)
+                .OrderBy(group => group.Key)
+                .Select(group => group.Shuffle())
+                .SelectMany(group => group)
+                .ToList();
 
             for (var i = 0; i < shuffledQuestions.Count; i++)
             {
@@ -84,23 +83,13 @@ namespace MusicQuiz.Screens
             quizManager?.CheckAnswer(AnswerInputField.text);
         }
 
-        public void OnDifficultyChange()
-        {
-            if (quizManager == null || quizManager.CurrentDisk == null || difficultyDropdown == null)
-            {
-                return;
-            }
-
-            quizManager.CurrentDisk.Data.Difficulty = (QuestionDifficulty)difficultyDropdown.value;
-        }
-
         private void SelectQuestion(QuestionDisk questionDisk)
         {
+            Debug.Log("Question selected: " + questionDisk.Data.DiskName + " - " + questionDisk.Data.Difficulty);
             quizManager?.SelectDisk(questionDisk);
-
+            DiskPlayer.LoadAndPlay(questionDisk.Data.Audio);
 
             AnswerInputField.text = questionDisk.Data.LastAnswer;
-            difficultyDropdown?.SetValueWithoutNotify((int)questionDisk.Data.Difficulty);
         }
     }
 }

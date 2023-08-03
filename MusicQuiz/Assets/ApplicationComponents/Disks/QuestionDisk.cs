@@ -2,7 +2,10 @@
 
 
 using MusicQuiz.Exceptions;
+using MusicQuiz.Extensions;
 using System;
+using System.Linq;
+using UnityEngine;
 
 namespace MusicQuiz.Disks
 {
@@ -37,6 +40,29 @@ namespace MusicQuiz.Disks
             Data.DiskState = diskState;
             VisualizeDiskState();
         }
+
+        public void CheckAnswer(string answer)
+        {
+            Data.LastAnswer = answer;
+
+            // Save the last answer persistently
+            PlayerPrefs.SetString(Data.DiskName, answer);
+
+            var normalizedAnswer = string.Concat(answer.ToLower().Where(c => !char.IsControl(c)));
+            var correctAnswer = Data.DiskName;
+
+            var distance = normalizedAnswer.LevenshteinDistance(correctAnswer);
+
+            Data.DiskState = CalculateDiskStateOnDistance(distance);
+            VisualizeDiskState();
+        }
+
+        private DiskState CalculateDiskStateOnDistance(int distance) => distance switch
+        {
+            0 => DiskState.SOLVED,
+            <= 3 => DiskState.CLOSE_TO_SOLVED,
+            _ => DiskState.WRONG
+        };
 
         private void VisualizeDiskState()
         {
