@@ -21,7 +21,7 @@ MonoBehaviour:
   serienColor: {r: 0.17254902, g: 0.99215686, b: 1, a: 1}
   movieColor: {r: 0.14901961, g: 0.8117647, b: 1, a: 1}
   disneyColor: {r: 0.6901961, g: 0.14901961, b: 1, a: 1}
-  solvedColor: {r: 0.6476491, g: 1, b: 0.2588235, a: 1}
-  unknownColor: {r: 0.4245283, g: 0.41852084, b: 0.41852084, a: 1}
-  closeToSolvedColor: {r: 1, g: 0.9408203, b: 0.5411765, a: 1}
-  wrongColor: {r: 0.990566, g: 0.3243871, b: 0.22895159, a: 1}
+  solvedColor: {r: 0.27750197, g: 1, b: 0.2588235, a: 1}
+  unknownColor: {r: 0, g: 0, b: 0, a: 1}
+  closeToSolvedColor: {r: 1, g: 0.87179494, b: 0, a: 1}
+  wrongColor: {r: 0.99215686, g: 0.22745097, b: 0.26411554, a: 1}

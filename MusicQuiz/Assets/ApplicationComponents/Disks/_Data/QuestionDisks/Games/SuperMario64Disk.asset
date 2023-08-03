@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17b6be9bc7916c42b374e28f614bc5f, type: 3}
-  m_Name: UndertaleDisk
+  m_Name: SuperMario64Disk
   m_EditorClassIdentifier: 
-  diskName: Undertale
-  image: {fileID: 0}
+  diskName: Super Mario 64
+  image: {fileID: 21300000, guid: 376082c8b39a6794f9da3e56c1dedaad, type: 3}
   audio:
-    m_AssetGUID: 71ff60d04369a7340815df4249564015
+    m_AssetGUID: 800b6108c2194c74a8a1bb578b89791d
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

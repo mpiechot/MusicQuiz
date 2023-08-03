@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17b6be9bc7916c42b374e28f614bc5f, type: 3}
-  m_Name: TheLegendOfZeldaDisk
+  m_Name: HaloDisk
   m_EditorClassIdentifier: 
-  diskName: The Legend of Zelda
-  image: {fileID: 0}
+  diskName: Halo
+  image: {fileID: 21300000, guid: 9dba64d4efc18e84ca469ce05973e4ce, type: 3}
   audio:
-    m_AssetGUID: 12faa9e32df765c458ede271a74f16b8
+    m_AssetGUID: 6cb024bdf2fb3bc47b7aa8739252d2a2
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <Difficulty>k__BackingField: 0

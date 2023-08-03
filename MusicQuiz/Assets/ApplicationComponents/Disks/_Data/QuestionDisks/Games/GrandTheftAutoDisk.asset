@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17b6be9bc7916c42b374e28f614bc5f, type: 3}
-  m_Name: MarioKart64Disk
+  m_Name: GrandTheftAutoDisk
   m_EditorClassIdentifier: 
-  diskName: Mario Kart 64
-  image: {fileID: 0}
+  diskName: Grand Theft Auto
+  image: {fileID: 21300000, guid: 8df2914e00ad439448c8c91ddce073c8, type: 3}
   audio:
-    m_AssetGUID: a90984c1d34ce25418f751d1abe4139d
+    m_AssetGUID: e7ca9b7f4ebf049499607dc342efc690
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17b6be9bc7916c42b374e28f614bc5f, type: 3}
-  m_Name: PokemonDisk
+  m_Name: KingdomHeartsDisk
   m_EditorClassIdentifier: 
-  diskName: Pokemon
-  image: {fileID: 0}
+  diskName: Kingdom Hearts
+  image: {fileID: 21300000, guid: 4c281ff56b68bf240901eb2716b56542, type: 3}
   audio:
-    m_AssetGUID: 061934a49edc1f849b30e076009c5d16
+    m_AssetGUID: ff30d3f53ae288a49941639b95dfb87d
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

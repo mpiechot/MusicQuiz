@@ -6,17 +6,23 @@ using MusicQuiz.Extensions;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MusicQuiz.Disks
 {
     public class QuestionDisk : Disk
     {
+        [SerializeField]
+        private Image? diskGlow;
+
         private QuestionDiskData? data;
 
         /// <summary>
         ///     Gets the data assigned to this disk or null if no data was assigned.
         /// </summary>
         public QuestionDiskData Data => data != null ? data : throw new InvalidOperationException($"'{nameof(data)}' is null, because there is no data assigned to this disk.");
+
+        private Image DiskGlow => diskGlow != null ? diskGlow : throw new SerializeFieldNotAssignedException();
 
         /// <summary>
         ///     Assigns the given <see cref="QuestionDiskData"/> to this disk by updating the gameobject name and visual appearance.
@@ -71,29 +77,32 @@ namespace MusicQuiz.Disks
                 return;
             }
 
+            DiskGlow.enabled = data.DiskState != DiskState.LOCKED && data.DiskState != DiskState.UNLOCKED;
+
             SerializeFieldNotAssignedException.ThrowIfNull(colorProfile, nameof(colorProfile));
 
             switch (data.DiskState)
             {
                 case DiskState.LOCKED:
-                    BackgroundImage.color = colorProfile.unknownColor;
+                    DiskGlow.color = colorProfile.unknownColor;
                     break;
                 case DiskState.UNLOCKED:
-                    BackgroundImage.color = colorProfile.unknownColor;
+                    DiskGlow.color = colorProfile.unknownColor;
                     break;
                 case DiskState.CLOSE_TO_SOLVED:
-                    BackgroundImage.color = colorProfile.closeToSolvedColor;
+                    DiskGlow.color = colorProfile.closeToSolvedColor;
                     break;
                 case DiskState.SOLVED:
                     if (data.Image != null)
                     {
                         BackgroundImage.sprite = data.Image;
+                        BackgroundImage.color = Color.gray;
                     }
 
-                    BackgroundImage.color = colorProfile.solvedColor;
+                    DiskGlow.color = colorProfile.solvedColor;
                     break;
                 case DiskState.WRONG:
-                    BackgroundImage.color = colorProfile.wrongColor;
+                    DiskGlow.color = colorProfile.wrongColor;
                     break;
                 default:
                     break;
