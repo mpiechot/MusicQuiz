@@ -1,8 +1,9 @@
 #nullable enable
 
 using Musicmania.Exceptions;
+using Musicmania.SaveManagement;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -17,39 +18,39 @@ namespace Musicmania.Data
         [SerializeField]
         private AssetReferenceT<AudioClip>? audio;
 
+        [field: SerializeField]
+        public bool AskForExactName { get; private set; } = false;
+
         /// <summary>
         ///     Gets or sets the difficulty level of the question.
         /// </summary>
         [field: SerializeField]
         public QuestionDifficulty Difficulty { get; set; } = QuestionDifficulty.Easy;
 
-        [field: SerializeField]
-        public CategoryTag QuestionTags { get; set; } = CategoryTag.None;
-
-        public CategoryTag CurrentCategoryTags { get; set; }
+        public CategoryTag CurrentCategoryTags { get; private set; }
 
         public bool IsLocked
         {
-            get => QuestionSave.QuestionSaves[CurrentCategoryTags].Locked;
-            set => QuestionSave.QuestionSaves[CurrentCategoryTags].Locked = value;
+            get => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).Locked;
+            set => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).Locked = value;
         }
 
         public int Position
         {
-            get => QuestionSave.QuestionSaves[CurrentCategoryTags].Position;
-            set => QuestionSave.QuestionSaves[CurrentCategoryTags].Position = value;
+            get => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).Position;
+            set => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).Position = value;
         }
 
         public int TippCount
         {
-            get => QuestionSave.QuestionSaves[CurrentCategoryTags].TippCount;
-            set => QuestionSave.QuestionSaves[CurrentCategoryTags].TippCount = value;
+            get => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).TippCount;
+            set => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).TippCount = value;
         }
 
         public string LastAnswer
         {
-            get => QuestionSave.QuestionSaves[CurrentCategoryTags].LastAnswer;
-            set => QuestionSave.QuestionSaves[CurrentCategoryTags].LastAnswer = value;
+            get => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).LastAnswer;
+            set => QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags).LastAnswer = value;
         }
 
         /// <summary>
@@ -57,43 +58,26 @@ namespace Musicmania.Data
         /// </summary>
         public AssetReferenceT<AudioClip> Audio => audio != null ? audio : throw new SerializeFieldNotAssignedException();
 
-        private Quizes? questionSave;
+        private QuestionSaveContainer? questionSavesContainer;
 
-        public Quizes QuestionSave => NotInitializedException.ThrowIfNull(questionSave, nameof(questionSave));
+        public QuestionSaveContainer QuestionSaves => NotInitializedException.ThrowIfNull(questionSavesContainer, nameof(questionSavesContainer));
 
-        public void Initialize(Quizes? quiz, int questionPosition)
+        private QuestionSave? currentQuestionSave;
+
+        private MusicmaniaContext? context;
+
+        public void Initialize(MusicmaniaContext contextInsance)
         {
-            if (quiz != null)
-            {
-                questionSave = quiz;
-                return;
-            }
+            context = contextInsance;
 
-            questionSave = new();
-            questionSave.QuestionSaves.Add(CurrentCategoryTags, new() { CategoryTags = CurrentCategoryTags, Position = questionPosition });
+            questionSavesContainer = context.QuestionSaveContainerManager.GetQuestionSaveContainer(Name);
         }
-    }
 
-    [Serializable]
-    public class Quizes
-    {
-        public Dictionary<CategoryTag, QuestionSave> QuestionSaves { get; set; } = new();
-    }
-
-    [Serializable]
-    public class QuestionSave
-    {
-        public CategoryTag CategoryTags { get; set; }
-
-        public int Position { get; set; } = 0;
-
-        /// <summary>
-        ///     Gets or sets the last answer given by the player.
-        /// </summary>
-        public string LastAnswer { get; set; } = string.Empty;
-
-        public int TippCount { get; set; }
-
-        public bool Locked { get; set; }
+        public void SetCurrentCategoryTags(CategoryTag categoryTags)
+        {
+            CurrentCategoryTags = categoryTags;
+            currentQuestionSave = QuestionSaves.GetQuestionSaveViaTags(CurrentCategoryTags);
+            currentQuestionSave.CategoryTags = CurrentCategoryTags;
+        }
     }
 }

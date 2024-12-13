@@ -1,9 +1,9 @@
 #nullable enable
 
 using Musicmania.Data;
-using Musicmania.Disks;
 using Musicmania.Exceptions;
 using Musicmania.Screens;
+using Musicmania.Ui.Screens;
 using System.Collections.Generic;
 
 namespace Musicmania
@@ -21,13 +21,15 @@ namespace Musicmania
         private CategoryScreen CategoryScreen => categoryScreen != null ? categoryScreen : throw new NotInitializedException();
         private QuizScreen QuizScreen => quizScreen != null ? quizScreen : throw new NotInitializedException();
 
+        private ScreenBase? currentScreen;
+
         /// <summary>
         ///     Initializes a new instance of the ScreenManager class.
         /// </summary>
         /// <param name="context">The MusicQuizContext instance.</param>
         public ScreenManager(MusicmaniaContext context)
         {
-            screenCreator = new ScreenCreator(this, context);
+            screenCreator = new ScreenCreator(context);
         }
 
         /// <summary>
@@ -42,36 +44,45 @@ namespace Musicmania
                 quizScreen = screenCreator.CreateQuizScreen();
             }
 
-            HideAllScreens();
-            QuizScreen.Show(category);
+            QuizScreen.AssignCategoryData(category);
+
+            ShowScreen(QuizScreen);
         }
 
         /// <summary>
         ///     Shows the CategoryScreen. 
         ///     If it's not initialized, it creates a new one.
         /// </summary>
-        public void ShowCategoryScreen(List<CategoryData> categories)
+        public void ShowCategoryScreen()
         {
             if (categoryScreen == null)
             {
                 categoryScreen = screenCreator.CreateCategoryScreen();
             }
 
-            HideAllScreens();
-            CategoryScreen.Show(categories);
+            ShowScreen(CategoryScreen);
         }
 
-        private void HideAllScreens()
+        private void ShowScreen(ScreenBase screen)
         {
-            if (quizScreen != null)
+            if (categoryScreen == null)
             {
-                quizScreen.Hide();
+                categoryScreen = screenCreator.CreateCategoryScreen();
             }
 
-            if (categoryScreen != null)
+            if (currentScreen == screen)
             {
-                categoryScreen.Hide();
+                // The quiz screen is already shown.
+                return;
             }
+
+            if (currentScreen != null)
+            {
+                currentScreen.Hide();
+            }
+
+            currentScreen = screen;
+            screen.Show();
         }
     }
 }

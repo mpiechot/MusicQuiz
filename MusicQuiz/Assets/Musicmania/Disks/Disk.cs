@@ -18,10 +18,16 @@ namespace Musicmania.Disks
         where T : BaseData
     {
         [SerializeField]
+        private RectTransform? diskContainer;
+
+        [SerializeField]
         private TMP_Text? label;
 
         [SerializeField]
         private Image? backgroundImage;
+
+        [SerializeField]
+        private Image? backgroundMask;
 
         [SerializeField]
         private Button? diskButton;
@@ -40,6 +46,12 @@ namespace Musicmania.Disks
 
         protected Image BackgroundImage => SerializeFieldNotAssignedException.ThrowIfNull(backgroundImage);
 
+        private Image BackgroundMask => SerializeFieldNotAssignedException.ThrowIfNull(backgroundImage);
+
+        private RectTransform DiskContainer => SerializeFieldNotAssignedException.ThrowIfNull(diskContainer);
+
+        protected ColorProfile ColorProfile => SerializeFieldNotAssignedException.ThrowIfNull(colorProfile);
+
         private MusicmaniaContext? context;
 
         protected MusicmaniaContext Context => NotInitializedException.ThrowIfNull(context);
@@ -47,7 +59,42 @@ namespace Musicmania.Disks
         protected DiskState DiskState
         {
             get => diskState;
-            set => diskState = value;
+            set
+            {
+                diskState = value;
+                EvaluateDiskState();
+            }
+        }
+
+        private void EvaluateDiskState()
+        {
+            switch (diskState)
+            {
+                case DiskState.Locked:
+                case DiskState.Normal:
+                    DiskGlow.gameObject.SetActive(false);
+                    BackgroundImage.gameObject.SetActive(false);
+                    //BackgroundMask.material.color = ColorProfile.defaultColor;
+                    break;
+                case DiskState.CloseToSolved:
+                    DiskGlow.gameObject.SetActive(true);
+                    DiskGlow.color = ColorProfile.closeToSolvedColor;
+                    //BackgroundMask.material.color = ColorProfile.defaultColor;
+                    BackgroundImage.gameObject.SetActive(false);
+                    break;
+                case DiskState.Solved:
+                    DiskGlow.gameObject.SetActive(true);
+                    DiskGlow.color = ColorProfile.solvedColor;
+                    BackgroundMask.material.color = Color.white;
+                    BackgroundImage.gameObject.SetActive(true);
+                    break;
+                case DiskState.Wrong:
+                    DiskGlow.gameObject.SetActive(true);
+                    DiskGlow.color = ColorProfile.wrongColor;
+                    //BackgroundMask.material.color = ColorProfile.defaultColor;
+                    BackgroundImage.gameObject.SetActive(false);
+                    break;
+            }
         }
 
         public event EventHandler? DiskClicked;
@@ -58,14 +105,22 @@ namespace Musicmania.Disks
             SerializeFieldNotAssignedException.ThrowIfNull(diskButton, nameof(diskButton));
 
             context = contextToUse;
-            BackgroundImage.color = colorProfile.unknownColor;
+            //BackgroundImage.material.color = colorProfile.unknownColor;
+            DiskState = DiskState.Normal;
             Label.text = diskLabel;
-            diskButton.onClick.AddListener(OnDiskClicked);
         }
 
-        protected virtual void OnDiskClicked()
+        /// <summary>
+        ///    Called by Unity when the disk is clicked.
+        /// </summary>
+        public virtual void OnDiskClicked()
         {
             DiskClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetDiskYOffset(int y)
+        {
+            DiskContainer.localPosition = new(0, y, 0);
         }
 
         /// <summary>
@@ -127,7 +182,7 @@ namespace Musicmania.Disks
                     if (data.Image != null)
                     {
                         BackgroundImage.sprite = data.Image;
-                        BackgroundImage.color = Color.gray;
+                        //BackgroundImage.color = Color.gray;
                     }
 
                     DiskGlow.color = colorProfile.solvedColor;

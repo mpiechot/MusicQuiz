@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15af5d78f547994ca2d2b84f8fd1c22, type: 3}
+  m_Name: MusicmaniaSettings
+  m_EditorClassIdentifier: 
+  <ResourceSettings>k__BackingField: {fileID: 11400000, guid: d1976adcd9005b14db301d0c147564bb, type: 2}
+  <PrefabSettings>k__BackingField: {fileID: 11400000, guid: 4a72f5f5436d614469d244e9226e9168, type: 2}

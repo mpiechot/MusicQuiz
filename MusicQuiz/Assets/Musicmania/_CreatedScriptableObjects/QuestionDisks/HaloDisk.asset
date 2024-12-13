@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f8e11959e0a2c4ca7ddc9bd9069af1, type: 3}
+  m_Name: HaloDisk
+  m_EditorClassIdentifier: 
+  name: halo
+  image: {fileID: 21300000, guid: d1f13780758bd3140b80ba3441a424ce, type: 3}
+  <Tags>k__BackingField: 3
+  audio:
+    m_AssetGUID: 6cb024bdf2fb3bc47b7aa8739252d2a2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <AskForExactName>k__BackingField: 0
+  <Difficulty>k__BackingField: 0

@@ -16,9 +16,13 @@ namespace Musicmania
         ///   Initializes a new instance of a <see cref="QuestionStorage"/>.
         /// </summary>
         /// <param name="questions">The questions to store.</param>
-        public QuestionStorage(IReadOnlyCollection<QuestionData> questions)
+        public QuestionStorage(IReadOnlyCollection<QuestionData> questions, MusicmaniaContext context)
         {
-            allQuestions.AddRange(questions);
+            foreach (var question in questions)
+            {
+                question.Initialize(context);
+                allQuestions.Add(question);
+            }
         }
 
         /// <summary>
@@ -26,11 +30,16 @@ namespace Musicmania
         /// </summary>
         /// <param name="tags">The tags to filter the questions by.</param>
         /// <returns>All questions with the specified tags or null if no questions were found.</returns>
-        public IReadOnlyList<QuestionData>? GetAllQuestionsWithTags(CategoryTag tags)
+        public IReadOnlyList<QuestionData> GetAllQuestionsWithTags(CategoryTag tags)
         {
-            var questions = allQuestions.FindAll(question => question.QuestionTags == tags);
+            var questions = allQuestions.FindAll(question => question.Tags == tags);
 
-            return questions.Count > 0 ? questions : null;
+            foreach (var question in questions)
+            {
+                question.SetCurrentCategoryTags(tags);
+            }
+
+            return questions;
         }
     }
 }

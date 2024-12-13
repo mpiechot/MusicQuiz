@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c41a09ab4beba489d786140e4dcaee, type: 3}
+  m_Name: DefaultColorProfile
+  m_EditorClassIdentifier: 
+  backgroundColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+  primaryColor: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
+  secondaryColor: {r: 1, g: 0.45336083, b: 0, a: 1}
+  defaultColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+  gamesColor: {r: 0, g: 1, b: 0.5882353, a: 1}
+  animeColor: {r: 0.98039216, g: 0.45882353, b: 0.1764706, a: 1}
+  serienColor: {r: 0.17254902, g: 0.99215686, b: 1, a: 1}
+  movieColor: {r: 0.14901961, g: 0.8117647, b: 1, a: 1}
+  disneyColor: {r: 0.6901961, g: 0.14901961, b: 1, a: 1}
+  solvedColor: {r: 0.27750197, g: 1, b: 0.2588235, a: 1}
+  unknownColor: {r: 0, g: 0, b: 0, a: 1}
+  closeToSolvedColor: {r: 1, g: 0.65517235, b: 0, a: 1}
+  wrongColor: {r: 0.99215686, g: 0.22745097, b: 0.26411554, a: 1}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fea8b2d952bcca4785bd78caaefb3af, type: 3}
   m_Name: GamesCategoryDiskData
   m_EditorClassIdentifier: 
-  name: 
+  name: games
   image: {fileID: 21300000, guid: 9dba64d4efc18e84ca469ce05973e4ce, type: 3}
-  tags: 1
+  <Tags>k__BackingField: 1

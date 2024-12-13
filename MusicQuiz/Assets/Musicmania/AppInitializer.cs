@@ -22,6 +22,12 @@ namespace Musicmania
         private MusicmaniaSettings? settings;
 
         /// <summary>
+        ///     Serialized field for the audio player.
+        /// </summary>
+        [SerializeField]
+        private AudioPlayer? audioPlayer;
+
+        /// <summary>
         ///    The available quiz-categories the user can select in the app.
         /// </summary>
         [field: SerializeField]
@@ -39,23 +45,14 @@ namespace Musicmania
         [SerializeField]
         private ColorProfile? colorProfile;
 
-        /// <summary>
-        ///     The screen manager for managing screens in the application.
-        /// </summary>
-        private ScreenManager? screenManager;
-
         void Awake()
         {
             SerializeFieldNotAssignedException.ThrowIfNull(settings, nameof(settings));
+            SerializeFieldNotAssignedException.ThrowIfNull(audioPlayer, nameof(audioPlayer));
 
-            var questionStorage = new QuestionStorage(AllQuestions);
-            MusicmaniaContext context = new MusicmaniaContext(colorProfile, settings, questionStorage);
+            MusicmaniaContext context = new MusicmaniaContext(colorProfile, settings, AllQuestions, QuizCategories, audioPlayer);
 
-            screenManager = new ScreenManager(context);
-
-            context.SaveManager.LoadQuestionSaves();
-
-            screenManager.ShowCategoryScreen(QuizCategories);
+            context.ScreenManager.ShowCategoryScreen();
         }
     }
 }

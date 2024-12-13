@@ -3,35 +3,44 @@
 using Musicmania.Data;
 using Musicmania.Disks;
 using Musicmania.Exceptions;
-using Musicmania.Settings;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Musicmania.Screens
+namespace Musicmania.Ui.Screens
 {
-    public class CategoryScreen : MonoBehaviour
+    public class CategoryScreen : ScreenBase
     {
         [SerializeField]
         private RectTransform? categoryParent;
 
         private CategoryDisk? diskPrefab;
 
-        private MusicmaniaContext? context;
+        private List<CategoryDisk> availableCategories = new();
 
-        private MusicmaniaContext Context => NotInitializedException.ThrowIfNull(context, nameof(context));
-
-        public void Initialize(MusicmaniaContext contextToUse)
+        public override void Initialize(MusicmaniaContext contextToUse)
         {
-            context = contextToUse;
-            diskPrefab = context.Settings.PrefabSettings.CategoryDiskPrefab;
+            base.Initialize(contextToUse);
+            diskPrefab = Context.Settings.PrefabSettings.CategoryDiskPrefab;
         }
 
-        public void Show(IReadOnlyCollection<CategoryData> categories)
+        public override void Show()
         {
-            SerializeFieldNotAssignedException.ThrowIfNull(diskPrefab, nameof(diskPrefab));
-            NotInitializedException.ThrowIfNull(categories, nameof(categories));
+            CreateCategoryDisks();
 
             gameObject.SetActive(true);
+        }
+
+        private void CreateCategoryDisks()
+        {
+            if (availableCategories.Count > 0)
+            {
+                // Already created the disks
+                return;
+            }
+
+            SerializeFieldNotAssignedException.ThrowIfNull(diskPrefab, nameof(diskPrefab));
+
+            var categories = Context.CategoryStorage.Categories;
 
             foreach (var category in categories)
             {
@@ -39,13 +48,9 @@ namespace Musicmania.Screens
 
                 disk.Initialize(category.Name, Context);
                 disk.AssignData(category);
+                availableCategories.Add(disk);
                 Debug.Log("Created Category Disk for: " + category.Name);
             }
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
     }
 }

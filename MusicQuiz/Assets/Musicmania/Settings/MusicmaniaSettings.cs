@@ -11,12 +11,12 @@ namespace Musicmania.Settings
         ///    The resource settings, containing information about where resources should be loaded/saved from/to.
         /// </summary>
         [field: SerializeField]
-        public ResourceSettings ResourceSettings { get; private set; } = new();
+        public ResourceSettings ResourceSettings { get; private set; } = null!;
 
         /// <summary>
         ///    The prefab settings, containing information about which prefabs should be used.
         /// </summary>
         [field: SerializeField]
-        public PrefabSettings PrefabSettings { get; private set; } = new();
+        public PrefabSettings PrefabSettings { get; private set; } = null!;
     }
 }

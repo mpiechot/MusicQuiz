@@ -1,5 +1,8 @@
-﻿using Musicmania.Settings;
+﻿using Musicmania.Data;
+using Musicmania.SaveManagement;
+using Musicmania.Settings;
 using Musicmania.Util;
+using System.Collections.Generic;
 
 namespace Musicmania
 {
@@ -13,14 +16,17 @@ namespace Musicmania
         /// </summary>
         /// <param name="colorProfile">The color profile to be used.</param>
         /// <param name="settings">The application data to be used.</param>
-        public MusicmaniaContext(ColorProfile colorProfile, MusicmaniaSettings settings, QuestionStorage storage)
+        public MusicmaniaContext(ColorProfile colorProfile, MusicmaniaSettings settings, List<QuestionData> allQuestions, List<CategoryData> quizCategories, AudioPlayer audioPlayer)
         {
             ColorProfile = colorProfile;
             Settings = settings;
-            SaveManager = new SaveManager(this);
+            QuestionSaveContainerManager = new QuestionSaveContainerManager(this);
             ScreenManager = new ScreenManager(this);
-            QuestionStorage = storage;
+            QuestionStorage = new QuestionStorage(allQuestions, this);
+            AudioPlayer = audioPlayer;
+            CategoryStorage = new CategoryStorage(quizCategories);
         }
+
 
         /// <summary>
         ///    Gets the AppData.
@@ -30,7 +36,7 @@ namespace Musicmania
         /// <summary>
         ///     Gets the SaveManager.
         /// </summary>
-        public SaveManager SaveManager { get; }
+        public QuestionSaveContainerManager QuestionSaveContainerManager { get; }
 
         /// <summary>
         ///     Gets the SceneManager.
@@ -43,6 +49,8 @@ namespace Musicmania
         public ColorProfile ColorProfile { get; }
 
         public QuestionStorage QuestionStorage { get; }
+
+        public CategoryStorage CategoryStorage { get; }
 
         /// <summary>
         ///     Gets the RessourceManager.

@@ -2,6 +2,7 @@
 
 using Musicmania.Data;
 using Musicmania.Extensions;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -12,9 +13,6 @@ namespace Musicmania.Disks
         public void CheckAnswer(string answer)
         {
             Data.LastAnswer = answer;
-
-            // Save the last answer persistently
-            PlayerPrefs.SetString(Data.Name, answer);
 
             var normalizedAnswer = string.Concat(answer.ToLower().Where(c => !char.IsControl(c)));
             var correctAnswer = Data.Name;
@@ -32,12 +30,12 @@ namespace Musicmania.Disks
             _ => DiskState.Wrong
         };
 
-        protected override void OnDiskClicked()
+        /// <inheritdoc/>
+        public override void OnDiskClicked()
         {
             // TODO: Implement the quizManager field in MusicmaniaContext
             Debug.Log("Question selected: " + Data.Name + " - " + Data.Difficulty);
-            quizManager?.SelectDisk(questionDisk);
-            DiskPlayer.LoadAndPlay(questionDisk.Data.Audio);
+            Context.AudioPlayer.LoadAndPlay(Data.Audio);
 
             base.OnDiskClicked();
         }

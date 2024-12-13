@@ -11,9 +11,10 @@ namespace Musicmania.Disks
 {
     public sealed class CategoryDisk : Disk<CategoryData>
     {
-        protected override void OnDiskClicked()
+        /// <inheritdoc/>
+        public override void OnDiskClicked()
         {
-            Debug.Log("Load Category " + Data.Name + "...");
+            Debug.Log("Load Category " + Data.Name + " ...");
             Context.ScreenManager.ShowQuizScreen(Data);
 
             base.OnDiskClicked();
