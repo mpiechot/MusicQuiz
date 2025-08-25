@@ -1,34 +1,40 @@
 # MusicQuiz
-This is a Quiz-App with different categories. For example in the game category you have to listen to 15s of a game theme and answer with the correct game title.
-Because there are many questions and thus many mp3 files, I set up unity to load the mp3-files in background so that the app is starting up faster. As mentioned in my PianoTutor App, the questions here are stored in json files (one file per category). Those questions are easily extendable and using them with a Json Deserializer is very easy.
 
-### Keypoints
-- Load mp3-Files in background
-- Read Json-Files in C#
-- Audiomanager
-- UI Layout
+MusicQuiz is a Unity-based **quiz management** app. Instead of shipping copyrighted audio, it lets you create your own quizzes by referencing short music clips from URLs (MP3 files, YouTube links, etc.) and share them with friends. Each category collects several 15‑second snippets, and players must identify the correct title or source.
 
-### Some Code examples
-**Creation of Questions and checking if they were already answered by reading the PlayerPrefs**
-```c#
-private void CreateQuestion(AudioClip audio, Question question, GameObject questionObject)
-{
-    QuestionComponent questComp = questionObject.GetComponent<QuestionComponent>();
-    questComp.question = question;
-    questComp.name = "Question " + question.id;
-    questComp.source.clip = audio;
+## Features
+- Create and share quizzes by supplying external audio links rather than bundling media
+- A single categories JSON file lists all categories, while each question has its own JSON file so users can extend the quiz by adding new category entries and question files
+- Custom `ResourceManager` loads assets via key-based handles, providing caching and letting the game swap out resource providers without touching gameplay code
 
-    TextMeshProUGUI questionText = questComp.GetComponentInChildren<TextMeshProUGUI>();
-    questionText.text = "" + (question.id + 1);
+## Project Structure
+- `MusicQuiz/` – Unity project root
+  - `Assets/`
+    - `Musicmania/` – core quiz logic and assets
+      - `Questions/` – JSON question definitions referencing audio URLs
+      - `ResourceManagement/` – asset loading abstractions
+      - Additional folders such as `Data/`, `UI/`, `SaveManagement/` and utilities
+    - `StreamingAssets/` – `categories.json` and individual question files
+  - `Packages/` and `ProjectSettings/` – Unity configuration files
+- `MusicQuiz-Architecture.drawio` – diagram outlining the high‑level architecture
+- `GamesMusicDifficulty.ods` – spreadsheet with question metadata
 
-    if (PlayerPrefs.HasKey(question.sourcePath))
-    {
-        question.lastAnswer = PlayerPrefs.GetString(question.sourcePath);
-        PlayerPrefs.DeleteKey(question.sourcePath);
-    }      
-    if(question.lastAnswer.Length > 1)
-    {          
-        CheckAnswer(questComp);
-    }
-}
+## Code Example
+**Loading assets via the `ResourceManager`:**
+
+```csharp
+var imageHandle = context.ResourceManager.GetResource<Sprite>(questionData.ImageResourceKey);
+var audioHandle = context.ResourceManager.GetResource<AudioClip>(questionData.AudioResourceKey);
+
+var sprite = await imageHandle.LoadAsync(cancellationToken);
+var clip = await audioHandle.LoadAsync(cancellationToken);
+
+image.sprite = sprite;
+audioSource.clip = clip;
+
+imageHandle.Unload();
+audioHandle.Unload();
 ```
+
+---
+This README provides an overview of the project. Feel free to expand it with additional details as the game evolves.
