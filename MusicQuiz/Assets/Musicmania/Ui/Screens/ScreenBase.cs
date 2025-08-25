@@ -1,9 +1,4 @@
 ﻿using Musicmania.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Musicmania.Ui.Screens
@@ -18,17 +13,22 @@ namespace Musicmania.Ui.Screens
         ///     Initializes the QuizScreen.
         /// </summary>
         /// <param name="contextToUse">The appData to use.</param>
-        /// <param name="diskPlayer">The diskPlayer to use.</param>
         public virtual void Initialize(MusicmaniaContext contextToUse)
         {
             context = contextToUse;
         }
 
+        /// <summary>
+        ///     Shows the screen.
+        /// </summary>
         public virtual void Show()
         {
             gameObject.SetActive(true);
         }
 
+        /// <summary>
+        ///     Hides the screen.
+        /// </summary>
         public virtual void Hide()
         {
             gameObject.SetActive(false);

@@ -2,6 +2,7 @@
 
 using Musicmania.Settings;
 using Musicmania.Ui.Screens;
+using Musicmania.Ui.Screens.MainMenu;
 using UnityEngine;
 
 namespace Musicmania.Screens
@@ -9,14 +10,14 @@ namespace Musicmania.Screens
     public class ScreenCreator
     {
         private QuizScreen quizScreenPrefab;
-        private CategoryScreen categoryScreenPrefab;
+        private MainScreen mainScreenPrefab;
         private readonly MusicmaniaContext context;
 
         public ScreenCreator(MusicmaniaContext context)
         {
             this.context = context;
-            quizScreenPrefab = context.Settings.PrefabSettings.QuizScreenPrefab;
-            categoryScreenPrefab = context.Settings.PrefabSettings.CategoryScreenPrefab;
+            quizScreenPrefab = context.Settings.ScreenPrefabProvider.QuizScreenPrefab;
+            mainScreenPrefab = context.Settings.ScreenPrefabProvider.MainScreenPrefab;
         }
 
         public QuizScreen CreateQuizScreen()
@@ -26,11 +27,11 @@ namespace Musicmania.Screens
             return quizScreen;
         }
 
-        public CategoryScreen CreateCategoryScreen()
+        public MainScreen CreateMainScreen()
         {
-            var categoryScreen = GameObject.Instantiate(categoryScreenPrefab);
-            categoryScreen.Initialize(context);
-            return categoryScreen;
+            var mainScreen = GameObject.Instantiate(mainScreenPrefab);
+            mainScreen.Initialize(context);
+            return mainScreen;
         }
     }
 }

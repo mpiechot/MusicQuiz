@@ -1,8 +1,6 @@
-﻿using Musicmania.Data;
-using Musicmania.SaveManagement;
+﻿using Musicmania.ResourceManagement;
 using Musicmania.Settings;
-using Musicmania.Util;
-using System.Collections.Generic;
+using Musicmania.Ui.Theming;
 
 namespace Musicmania
 {
@@ -14,19 +12,15 @@ namespace Musicmania
         /// <summary>
         ///     Initializes a new instance of a <see cref="MusicmaniaContext"/>.
         /// </summary>
-        /// <param name="colorProfile">The color profile to be used.</param>
         /// <param name="settings">The application data to be used.</param>
-        public MusicmaniaContext(ColorProfile colorProfile, MusicmaniaSettings settings, List<QuestionData> allQuestions, List<CategoryData> quizCategories, AudioPlayer audioPlayer)
+        public MusicmaniaContext(MusicmaniaSettings settings, AudioPlayer audioPlayer)
         {
-            ColorProfile = colorProfile;
             Settings = settings;
-            QuestionSaveContainerManager = new QuestionSaveContainerManager(this);
             ScreenManager = new ScreenManager(this);
-            QuestionStorage = new QuestionStorage(allQuestions, this);
             AudioPlayer = audioPlayer;
-            CategoryStorage = new CategoryStorage(quizCategories);
+            ResourceManager = new ResourceManager(settings.ResourceSettings);
+            ThemeProvider = new ThemeProvider(settings.UiTheme, settings.ColorProfile);
         }
-
 
         /// <summary>
         ///    Gets the AppData.
@@ -34,28 +28,20 @@ namespace Musicmania
         public MusicmaniaSettings Settings { get; }
 
         /// <summary>
-        ///     Gets the SaveManager.
+        ///     Gets the theme provider.
         /// </summary>
-        public QuestionSaveContainerManager QuestionSaveContainerManager { get; }
+        public IThemeProvider ThemeProvider { get; }
 
         /// <summary>
         ///     Gets the SceneManager.
         /// </summary>
         public ScreenManager ScreenManager { get; }
 
-        /// <summary>
-        ///     Gets the ColorProfile.
-        /// </summary>
-        public ColorProfile ColorProfile { get; }
-
-        public QuestionStorage QuestionStorage { get; }
-
-        public CategoryStorage CategoryStorage { get; }
 
         /// <summary>
         ///     Gets the RessourceManager.
         /// </summary>
-        public RessourceManager RessourceManager { get; }
+        public ResourceManager ResourceManager { get; }
 
         /// <summary>
         ///     Gets the AudioPlayer.

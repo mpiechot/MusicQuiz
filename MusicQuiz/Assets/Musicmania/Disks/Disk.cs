@@ -1,8 +1,8 @@
 #nullable enable
 
-using Musicmania.Data;
+using Musicmania.Data.Categories;
 using Musicmania.Exceptions;
-using Musicmania.Util;
+using Musicmania.Settings.Ui;
 using System;
 using TMPro;
 using UnityEngine;
@@ -13,9 +13,8 @@ namespace Musicmania.Disks
     /// <summary>
     ///     Represents a visual disk which holds data of type <see cref="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of data the disk holds (e.g. <see cref="QuestionData"/> or <see cref="CategoryData"/>).</typeparam>
-    public class Disk<T> : MonoBehaviour
-        where T : BaseData
+    /// <typeparam name="T">The type of data the disk holds (e.g. <see cref="Question"/> or <see cref="CategoryData"/>).</typeparam>
+    public abstract class Disk : MonoBehaviour
     {
         [SerializeField]
         private RectTransform? diskContainer;
@@ -38,9 +37,9 @@ namespace Musicmania.Disks
         [SerializeField]
         private Image? diskGlow;
 
-        private DiskState diskState;
+        protected DiskState diskState;
 
-        private Image DiskGlow => SerializeFieldNotAssignedException.ThrowIfNull(diskGlow);
+        protected Image DiskGlow => SerializeFieldNotAssignedException.ThrowIfNull(diskGlow);
 
         protected TMP_Text Label => SerializeFieldNotAssignedException.ThrowIfNull(label);
 
@@ -121,78 +120,6 @@ namespace Musicmania.Disks
         public void SetDiskYOffset(int y)
         {
             DiskContainer.localPosition = new(0, y, 0);
-        }
-
-        /// <summary>
-        ///     Sets the state of this disk based on the given <see cref="DiskState"/>.
-        ///     This will also update the visual appearance of the disk.
-        /// </summary>
-        /// <param name="diskState">The state to set.</param>
-        public void SetDiskState(DiskState diskStateToSet)
-        {
-            // TODO Handle DiskState
-            diskState = diskStateToSet;
-
-
-            VisualizeDiskState();
-        }
-
-        private T? data;
-
-        /// <summary>
-        ///     Gets the data assigned to this disk.
-        /// </summary>
-        public T Data => data != null ? data : throw new InvalidOperationException($"'{nameof(data)}' is null, because there is no data assigned to this disk.");
-
-        /// <summary>
-        ///     Assigns the given data to this disk.
-        /// </summary>
-        /// <param name="dataToAssign">The data to assign.</param>
-        public void AssignData(T dataToAssign)
-        {
-            data = dataToAssign;
-            name = $"[{Label.text}] {dataToAssign.Name}";
-
-            BackgroundImage.sprite = dataToAssign.Image;
-        }
-
-        protected void VisualizeDiskState()
-        {
-            if (data == null)
-            {
-                return;
-            }
-
-            DiskGlow.enabled = diskState != DiskState.Locked && diskState != DiskState.Normal;
-
-            SerializeFieldNotAssignedException.ThrowIfNull(colorProfile, nameof(colorProfile));
-
-            switch (diskState)
-            {
-                case DiskState.Locked:
-                    DiskGlow.color = colorProfile.unknownColor;
-                    break;
-                case DiskState.Normal:
-                    DiskGlow.color = colorProfile.unknownColor;
-                    break;
-                case DiskState.CloseToSolved:
-                    DiskGlow.color = colorProfile.closeToSolvedColor;
-                    break;
-                case DiskState.Solved:
-                    if (data.Image != null)
-                    {
-                        BackgroundImage.sprite = data.Image;
-                        //BackgroundImage.color = Color.gray;
-                    }
-
-                    DiskGlow.color = colorProfile.solvedColor;
-                    break;
-                case DiskState.Wrong:
-                    DiskGlow.color = colorProfile.wrongColor;
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

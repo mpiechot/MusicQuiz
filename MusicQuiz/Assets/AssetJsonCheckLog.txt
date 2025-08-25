@@ -1,0 +1,161 @@
+==== JSON-Dateien (78) ====
+[JSON 1] anno.json
+[JSON 2] anthem.json
+[JSON 3] ark survival evolved.json
+[JSON 4] army of two.json
+[JSON 5] assassins creed.json
+[JSON 6] bad north.json
+[JSON 7] banjo kazzooie.json
+[JSON 8] battlefield.json
+[JSON 9] beyond two souls.json
+[JSON 10] bioshock.json
+[JSON 11] borderlands.json
+[JSON 12] castle crashers.json
+[JSON 13] chrono trigger.json
+[JSON 14] crysis.json
+[JSON 15] desperados.json
+[JSON 16] destiny.json
+[JSON 17] diablo.json
+[JSON 18] diddy kong racing.json
+[JSON 19] dungeon defenders.json
+[JSON 20] fall guys.json
+[JSON 21] fat princess.json
+[JSON 22] final fantasy.json
+[JSON 23] fortnite.json
+[JSON 24] f-zero.json
+[JSON 25] genesis.json
+[JSON 26] genshin impact.json
+[JSON 27] grand theft auto.json
+[JSON 28] gran turismo.json
+[JSON 29] halo.json
+[JSON 30] hearthstone.json
+[JSON 31] heavy rain.json
+[JSON 32] heroes of might and magic.json
+[JSON 33] hollow knight.json
+[JSON 34] horizon zero dawn.json
+[JSON 35] i am setsuna.json
+[JSON 36] kingdom hearts.json
+[JSON 37] kirby.json
+[JSON 38] life is strange.json
+[JSON 39] little big planet.json
+[JSON 40] mario kart.json
+[JSON 41] mario party.json
+[JSON 42] megaman.json
+[JSON 43] might and magic.json
+[JSON 44] motorstorm.json
+[JSON 45] neverwinter.json
+[JSON 46] nintendo world cup.json
+[JSON 47] okami.json
+[JSON 48] orcs must die.json
+[JSON 49] overwatch.json
+[JSON 50] payday.json
+[JSON 51] perfect dark.json
+[JSON 52] pixeljunk monsters.json
+[JSON 53] pokemon.json
+[JSON 54] red dead redemption.json
+[JSON 55] rocket league.json
+[JSON 56] secret of mana.json
+[JSON 57] shadow of the colossus.json
+[JSON 58] snowboard kids.json
+[JSON 59] socom.json
+[JSON 60] splatoon.json
+[JSON 61] starcraft.json
+[JSON 62] star fox.json
+[JSON 63] star wars battlefront.json
+[JSON 64] super mario 64.json
+[JSON 65] super smash bros.json
+[JSON 66] supreme commander.json
+[JSON 67] swords of ditto.json
+[JSON 68] the division.json
+[JSON 69] the last of us.json
+[JSON 70] the legend of zelda.json
+[JSON 71] the witcher.json
+[JSON 72] titan souls.json
+[JSON 73] tomb raider.json
+[JSON 74] uncharted.json
+[JSON 75] undertale.json
+[JSON 76] wave race.json
+[JSON 77] xenoblade chronicles.json
+[JSON 78] yoshis story.json
+
+==== ASSET-Dateien (78) ====
+[ASSET 1] Anno2070Disk.asset
+[ASSET 2] AnthemDisk.asset
+[ASSET 3] ArkDisk.asset
+[ASSET 4] ArmyOfTwoDisk.asset
+[ASSET 5] AssassinsCreed2Disk.asset
+[ASSET 6] BadNorthDisk.asset
+[ASSET 7] BanjoKazooieDisk.asset
+[ASSET 8] BattlefieldDisk.asset
+[ASSET 9] BeyondTwoSoulsDisk.asset
+[ASSET 10] BioshockDisk.asset
+[ASSET 11] BorderlandsDisk.asset
+[ASSET 12] CastleCrashersDisk.asset
+[ASSET 13] ChronoTriggerDisk.asset
+[ASSET 14] CrysisDisk.asset
+[ASSET 15] DesperadosDisk.asset
+[ASSET 16] DestinyDisk.asset
+[ASSET 17] DiabloDisk.asset
+[ASSET 18] DiddyKongRacingDisk.asset
+[ASSET 19] DungeonDefendersDisk.asset
+[ASSET 20] FallGuysDisk.asset
+[ASSET 21] FatPrincessDisk.asset
+[ASSET 22] FinalFantasyCrystalChroniclesDisk.asset
+[ASSET 23] FortniteDisk.asset
+[ASSET 24] FZeroDisk.asset
+[ASSET 25] GenesisDisk.asset
+[ASSET 26] GenshinImpactDisk.asset
+[ASSET 27] GrandTheftAutoDisk.asset
+[ASSET 28] GranTurismoDisk.asset
+[ASSET 29] HaloDisk.asset
+[ASSET 30] HearthstoneDisk.asset
+[ASSET 31] HeavyRainDisk.asset
+[ASSET 32] HeroesOfMightAndMagicDisk.asset
+[ASSET 33] HollowKnightDisk.asset
+[ASSET 34] HorizonZeroDawnDisk.asset
+[ASSET 35] IAmSetsunaDisk.asset
+[ASSET 36] KingdomHeartsDisk.asset
+[ASSET 37] KirbyDisk.asset
+[ASSET 38] LifeIsStrangeDisk.asset
+[ASSET 39] LittleBigPlanetDisk.asset
+[ASSET 40] MarioKart64Disk.asset
+[ASSET 41] MarioParty64Disk.asset
+[ASSET 42] MegamanDisk.asset
+[ASSET 43] MightAndMagicDisk.asset
+[ASSET 44] MotorstormDisk.asset
+[ASSET 45] NeverwinterDisk.asset
+[ASSET 46] NintendoWorldCupDisk.asset
+[ASSET 47] OkamiDisk.asset
+[ASSET 48] OrcsMustDieDisk.asset
+[ASSET 49] OverwatchDisk.asset
+[ASSET 50] PaydayDisk.asset
+[ASSET 51] PerfectDarkDisk.asset
+[ASSET 52] PixeljunkMonstersDisk.asset
+[ASSET 53] PokemonDisk.asset
+[ASSET 54] RedDeadRedemptionDisk.asset
+[ASSET 55] RocketLeagueDisk.asset
+[ASSET 56] SecretOfManaDisk.asset
+[ASSET 57] ShadowOfTheColossusDisk.asset
+[ASSET 58] SnowboardKidsDisk.asset
+[ASSET 59] Socom2Disk.asset
+[ASSET 60] SplatoonDisk.asset
+[ASSET 61] StarcraftDisk.asset
+[ASSET 62] StarFox64Disk.asset
+[ASSET 63] StarWarsBattlefrontDisk.asset
+[ASSET 64] SuperMario64Disk.asset
+[ASSET 65] SuperSmashBrosDisk.asset
+[ASSET 66] SupremeCommanderDisk.asset
+[ASSET 67] SwordsOfDittoDisk.asset
+[ASSET 68] TheDivisionDisk.asset
+[ASSET 69] TheLastOfUsDisk.asset
+[ASSET 70] TheLegendOfZeldaDisk.asset
+[ASSET 71] TheWitcherDisk.asset
+[ASSET 72] TitanSoulsDisk.asset
+[ASSET 73] TombRaiderDisk.asset
+[ASSET 74] UnchartedDisk.asset
+[ASSET 75] UndertaleDisk.asset
+[ASSET 76] WaveRaceDisk.asset
+[ASSET 77] XenobladeChroniclesDisk.asset
+[ASSET 78] YoshisStoryDisk.asset
+
+✅ Anzahl stimmt überein.

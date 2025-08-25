@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 0
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -171,6 +170,9 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5087,6 +5089,9 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9935,6 +9940,9 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -14797,6 +14805,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -14941,7 +14950,6 @@ Transform:
   m_Children:
   - {fileID: 299487667}
   - {fileID: 1059129698}
-  - {fileID: 1133496185}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1059129695
@@ -15060,7 +15068,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -15075,61 +15083,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
---- !u!1 &1133496183
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1133496185}
-  - component: {fileID: 1133496184}
-  m_Layer: 0
-  m_Name: Global Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1133496184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133496183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 2a048e827a2d0884a9103c34e18131a0, type: 2}
---- !u!4 &1133496185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133496183}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00012207031, y: 0.000061035156, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 967797498}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1277264399
 GameObject:
   m_ObjectHideFlags: 0
@@ -15181,6 +15140,9 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -20006,87 +19968,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 22c953b5a59312e4b950710bb19ce730, type: 2}
   audioPlayer: {fileID: 955225747}
-  <QuizCategories>k__BackingField:
-  - {fileID: 11400000, guid: 093910caaf87ebe4bbed15fdee198983, type: 2}
-  <AllQuestions>k__BackingField:
-  - {fileID: 11400000, guid: 073f62dfbddc1db48b9e029e5d7e951e, type: 2}
-  - {fileID: 11400000, guid: 9e6a538f66e1ff942b1320225dcb0677, type: 2}
-  - {fileID: 11400000, guid: 82e50bfa15cc9534cba9fb6683d6a82f, type: 2}
-  - {fileID: 11400000, guid: 71c8e6d73ad6ab74a8903e06b8c55d84, type: 2}
-  - {fileID: 11400000, guid: b93b4329d0c03d840b4e1256fd2b6d9c, type: 2}
-  - {fileID: 11400000, guid: 332ed65c539d20644b6ba037264e78d2, type: 2}
-  - {fileID: 11400000, guid: 8a83b00244e16d7419b4d40a111f8d7c, type: 2}
-  - {fileID: 11400000, guid: 5360ba91ad90af94da0bf6f97dd619ca, type: 2}
-  - {fileID: 11400000, guid: ba468e22e48697744b04a7fe0ef8a168, type: 2}
-  - {fileID: 11400000, guid: 441bb8cbc50c4284c951b2341b1e4454, type: 2}
-  - {fileID: 11400000, guid: 1757b995b52b5bd499932dec11ec7ea0, type: 2}
-  - {fileID: 11400000, guid: 71d839cbe17e0ec40867ba222888a7dc, type: 2}
-  - {fileID: 11400000, guid: ffe23969ffb76184e802dd49bba112f0, type: 2}
-  - {fileID: 11400000, guid: 5661dd8b636df744198053a6bbbc56a1, type: 2}
-  - {fileID: 11400000, guid: 23dce11a67744a54b9c3ca2cf3d3c8d3, type: 2}
-  - {fileID: 11400000, guid: 000bc1bb19bb18347adc7e6ed13686ab, type: 2}
-  - {fileID: 11400000, guid: 901ef45950e16bb40abf6487bfcbf205, type: 2}
-  - {fileID: 11400000, guid: e2dabde0d4f7976478febd8589230036, type: 2}
-  - {fileID: 11400000, guid: 348b0f5c2015b8e4b981bdee36b0a329, type: 2}
-  - {fileID: 11400000, guid: dd756db238437e442a0324944ff119c3, type: 2}
-  - {fileID: 11400000, guid: c88af7fa9da576249b42c6c3528e8f8f, type: 2}
-  - {fileID: 11400000, guid: 03622cdf4f7b5ad46a9eb9714fcec048, type: 2}
-  - {fileID: 11400000, guid: c3ab6f76bce930d4cad39f0314b26580, type: 2}
-  - {fileID: 11400000, guid: 605aebf066bdfed4baa21fcacd6f37b2, type: 2}
-  - {fileID: 11400000, guid: eff97564390c4d142a6c62f992fecfa6, type: 2}
-  - {fileID: 11400000, guid: 02a2b60189b9e4f459ec40782e44c97b, type: 2}
-  - {fileID: 11400000, guid: f866a7e9b9fa12742940588c626aba08, type: 2}
-  - {fileID: 11400000, guid: c20f2a22077bbb041984581abe62b209, type: 2}
-  - {fileID: 11400000, guid: 6c0a58d17bb1d834d9f9188a190b785e, type: 2}
-  - {fileID: 11400000, guid: be00e764710aafd43801c0095f66a89a, type: 2}
-  - {fileID: 11400000, guid: adaf802ba841f7c41894bb3d946ab66a, type: 2}
-  - {fileID: 11400000, guid: eb03e2c5b75408241854b888e939228a, type: 2}
-  - {fileID: 11400000, guid: 95068c90ea8eb9447bde841223c3e37b, type: 2}
-  - {fileID: 11400000, guid: 7b5200300812b4b4b8c9094185e86542, type: 2}
-  - {fileID: 11400000, guid: a56bf0b283e3c604d8c4eaae74b2fcab, type: 2}
-  - {fileID: 11400000, guid: 54ab3e5086221584e8c2014ef0d2e5c7, type: 2}
-  - {fileID: 11400000, guid: 205c00b7c5077bc42867c5429d4cda8e, type: 2}
-  - {fileID: 11400000, guid: d34cc2e992aea274e8f0768c46f7206f, type: 2}
-  - {fileID: 11400000, guid: 4d9238d6db9b46d428532a9a657af91b, type: 2}
-  - {fileID: 11400000, guid: 85ae3a0c7da4b0e438b9098811d4e276, type: 2}
-  - {fileID: 11400000, guid: cf6d4faac15bb7a4bbe96bd78891ec39, type: 2}
-  - {fileID: 11400000, guid: fa3affe89a6b4a9458f778e3abba3f49, type: 2}
-  - {fileID: 11400000, guid: 1794df53ddd859f49816da547fc6bb34, type: 2}
-  - {fileID: 11400000, guid: 909f9d5432e02d54ebf644636d3f7b04, type: 2}
-  - {fileID: 11400000, guid: 9aa00090b929b7a45b317a9847c4b49e, type: 2}
-  - {fileID: 11400000, guid: 4c51b527acdbb6b4c8c6201eb6042e9b, type: 2}
-  - {fileID: 11400000, guid: 8bd6eed68fa755c45885c8214e380536, type: 2}
-  - {fileID: 11400000, guid: 77302c7c162ba4d4a9ce71b27f4f5613, type: 2}
-  - {fileID: 11400000, guid: fd2ec16363db1394a9c81e8499c21107, type: 2}
-  - {fileID: 11400000, guid: 8d31016254353d94dae35b53d3b6f8e9, type: 2}
-  - {fileID: 11400000, guid: a072dc00c7302544dad5b95021e7b083, type: 2}
-  - {fileID: 11400000, guid: 8ec99f6ea17c7d24f9df9c962ef10f36, type: 2}
-  - {fileID: 11400000, guid: 4ed04a27b53509048a0ebfca5a50462f, type: 2}
-  - {fileID: 11400000, guid: 25b8e00a4b922674ebc7bf3523ce204d, type: 2}
-  - {fileID: 11400000, guid: 62f490fcda80a5c488f43534027d7b61, type: 2}
-  - {fileID: 11400000, guid: 374b6b96c7121dd4095857ae1745624c, type: 2}
-  - {fileID: 11400000, guid: d047cccbec477c148aaafbbab3dba639, type: 2}
-  - {fileID: 11400000, guid: 1b182c8db7524334d93b932ce4639e32, type: 2}
-  - {fileID: 11400000, guid: 9047451f99aaddb4e8e76eadc85e27be, type: 2}
-  - {fileID: 11400000, guid: 0b18b201979d3884bb89cbb448addbfe, type: 2}
-  - {fileID: 11400000, guid: d6a6dac66a9c5fc4e8c03a6432ac612d, type: 2}
-  - {fileID: 11400000, guid: 9f9afdcba92518343ba8ed77cc9f2df6, type: 2}
-  - {fileID: 11400000, guid: 146c4bb06f94d524280c5832960758bb, type: 2}
-  - {fileID: 11400000, guid: 9f3aa0d55faa95544b79face90183119, type: 2}
-  - {fileID: 11400000, guid: 2c8a10cc5708b4540b5c5a9a478ac214, type: 2}
-  - {fileID: 11400000, guid: a3638fc349510844186cb579fd5db3bc, type: 2}
-  - {fileID: 11400000, guid: 424e5ab153c151843b8ca0099acdfb13, type: 2}
-  - {fileID: 11400000, guid: 37b84a48455bb5944a237c50a448123e, type: 2}
-  - {fileID: 11400000, guid: 8bc9f4b1a11d41b41a047eb32850dc99, type: 2}
-  - {fileID: 11400000, guid: e824b614ace66df4fada7ca049eb4dd3, type: 2}
-  - {fileID: 11400000, guid: da5e53de06a04024397a66047a4b2553, type: 2}
-  - {fileID: 11400000, guid: 8e6e09a87aeae4749bb5de8b6b948b94, type: 2}
-  - {fileID: 11400000, guid: 052770b8eec6c2648a42ae2d2ce4efd5, type: 2}
-  - {fileID: 11400000, guid: ceb1e64db6c2b0d488f72e2d64363dc6, type: 2}
-  - {fileID: 11400000, guid: 57ce3563966fa844f8481cc31b5ceca0, type: 2}
-  - {fileID: 11400000, guid: 9f3d689c6e58ea14e919fb9bd0f24933, type: 2}
-  - {fileID: 11400000, guid: c3ac1c9b41a19c84398b9bac5ee4b0a9, type: 2}
-  - {fileID: 11400000, guid: b9ed49f59bf33c64bbc8a7037992fe44, type: 2}
   colorProfile: {fileID: 11400000, guid: e2ac5bd20ce7caa48a38a5e2eed9e41b, type: 2}
 --- !u!1 &1621235630
 GameObject:
@@ -20221,15 +20102,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -20306,6 +20189,9 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -9,5 +9,11 @@ namespace Musicmania.Settings
     {
         [field: SerializeField]
         public string SaveDataLocation { get; set; } = string.Empty;
+
+        [field: SerializeField]
+        public string DownloadedFilesLocation { get; set; } = string.Empty;
+
+        [field: SerializeField]
+        public string CategoriesFileLocation { get; set; } = string.Empty;
     }
 }
