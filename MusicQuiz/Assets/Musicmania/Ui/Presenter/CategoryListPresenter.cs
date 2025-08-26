@@ -1,57 +1,69 @@
-﻿#nullable enable
+#nullable enable
 
-using Cysharp.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using Musicmania.Data.Categories;
-using Musicmania.Exceptions;
-using Musicmania.Extensions;
-using Musicmania.Utils;
-using System.Threading;
-using UnityEngine;
+using Musicmania.Settings.Ui;
+using Musicmania.Ui.Controls;
+using UnityEngine.UIElements;
 
 namespace Musicmania.Ui.Presenter
 {
-    public class CategoryListPresenter : MonoBehaviour
+    /// <summary>
+    ///     Presents a list of available categories using UI Toolkit.
+    /// </summary>
+    public sealed class CategoryListPresenter : VisualElement, IDisposable
     {
-        [SerializeField]
-        private Transform? listElementsParent;
+        private readonly MusicmaniaContext context;
 
-        private Transform ListElementsParentTransform => SerializeFieldNotAssignedException.ThrowIfNull(listElementsParent);
+        private readonly List<ButtonControl> categoryButtons = new();
 
-        private MusicmaniaContext? context;
-
-        private CategoriesCollectionData? categoriesCollectionData;
-
-        private CancellableTaskCollection taskCollection = new();
-
-        private CategoryPresenter? categoryPresenterPrefab;
-
-        private MusicmaniaContext Context => NotInitializedException.ThrowIfNull(context);
-
-        private CategoriesCollectionData CategoriesCollectionData => NotInitializedException.ThrowIfNull(categoriesCollectionData);
-
-        private CategoryPresenter CategoryPresenterPrefab => NotInitializedException.ThrowIfNull(categoryPresenterPrefab);
-
-        public void Initialize(MusicmaniaContext contextInstance)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CategoryListPresenter"/> class.
+        /// </summary>
+        /// <param name="contextToUse">The application context.</param>
+        /// <param name="parent">The parent element to attach to.</param>
+        /// <param name="categories">The categories to present.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        public CategoryListPresenter(MusicmaniaContext contextToUse, VisualElement parent, CategoriesCollectionData categories)
         {
-            context = contextInstance;
-            categoryPresenterPrefab = Context.Settings.DataPrefabProvider.CategoryPresenterPrefab;
+            context = contextToUse ?? throw new ArgumentNullException(nameof(contextToUse));
+            _ = parent ?? throw new ArgumentNullException(nameof(parent));
+            _ = categories ?? throw new ArgumentNullException(nameof(categories));
 
-            taskCollection.CancelExecution();
-            taskCollection.StartExecution(UpdateAvailableCategoriesAsync);
-        }
-        public async UniTask UpdateAvailableCategoriesAsync(CancellationToken cancellationToken)
-        {
-            ListElementsParentTransform.DestroyAllChildren();
+            style.flexDirection = FlexDirection.Column;
+            parent.Add(this);
 
-            var categoriesResource = Context.ResourceManager.GetResource<CategoriesCollectionData>(Context.Settings.ResourceSettings.CategoriesFileLocation);
+            context.ThemeProvider.ThemeChanged += OnThemeChanged;
 
-            categoriesCollectionData = await categoriesResource.LoadAsync(cancellationToken);
-
-            foreach (var category in CategoriesCollectionData.Categories)
+            foreach (var category in categories.Categories)
             {
-                var categoryElement = GameObject.Instantiate<CategoryPresenter>(CategoryPresenterPrefab, ListElementsParentTransform);
-                categoryElement.Initialize(category, Context);
+                var control = new ButtonControl(Theme.ButtonStyle) { Text = category.Name };
+                Add(control);
+                categoryButtons.Add(control);
+            }
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            context.ThemeProvider.ThemeChanged -= OnThemeChanged;
+
+            foreach (var control in categoryButtons)
+            {
+                control.Dispose();
+            }
+        }
+
+        private UITheme Theme => context.ThemeProvider.CurrentTheme;
+
+        private void OnThemeChanged(object? sender, UITheme e)
+        {
+            foreach (var control in categoryButtons)
+            {
+                control.SetTheme(e.ButtonStyle);
             }
         }
     }
 }
+
