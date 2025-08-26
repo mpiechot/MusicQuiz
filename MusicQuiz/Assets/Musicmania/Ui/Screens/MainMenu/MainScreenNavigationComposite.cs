@@ -1,97 +1,111 @@
-﻿#nullable enable
+#nullable enable
 
-using Musicmania.Exceptions;
+using System;
 using Musicmania.Settings.Ui;
 using Musicmania.Ui.Controls;
-using System;
-using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Musicmania.Ui.Screens.MainMenu
 {
-    public class MainScreenNavigationComposite : ScreenBase
+    /// <summary>
+    ///     Composite for the main screen navigation using UI Toolkit.
+    /// </summary>
+    public sealed class MainScreenNavigationComposite : VisualElement, IDisposable
     {
-        [SerializeField]
-        private ButtonControl? settingsButton;
+        private readonly MusicmaniaContext context;
 
-        [SerializeField]
-        private ButtonControl? openQuestionManagerButton;
+        private readonly ButtonControl settingsButton;
+        private readonly ButtonControl openQuestionManagerButton;
+        private readonly ButtonControl startRandomButton;
+        private readonly ButtonControl quitButton;
 
-        [SerializeField]
-        private ButtonControl? startRandom;
-
-        [SerializeField]
-        private ButtonControl? quitButton;
-
-        private ButtonControl SettingsButton => SerializeFieldNotAssignedException.ThrowIfNull(settingsButton);
-
-        private ButtonControl OpenQuestionManagerButton => SerializeFieldNotAssignedException.ThrowIfNull(openQuestionManagerButton);
-
-        private ButtonControl StartRandom => SerializeFieldNotAssignedException.ThrowIfNull(startRandom);
-
-        private ButtonControl QuitButton => SerializeFieldNotAssignedException.ThrowIfNull(quitButton);
-
-        private UITheme Theme => Context.ThemeProvider.CurrentTheme;
-
-
-        public override void Initialize(MusicmaniaContext contextToUse)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MainScreenNavigationComposite"/> class.
+        /// </summary>
+        /// <param name="contextToUse">The application context.</param>
+        /// <param name="parent">The parent element to attach to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any required parameter is null.</exception>
+        public MainScreenNavigationComposite(MusicmaniaContext contextToUse, VisualElement parent)
         {
-            base.Initialize(contextToUse);
+            context = contextToUse ?? throw new ArgumentNullException(nameof(contextToUse));
+            _ = parent ?? throw new ArgumentNullException(nameof(parent));
 
-            Context.ThemeProvider.ThemeChanged += OnThemeChanged;
+            style.flexGrow = 1;
+            parent.Add(this);
 
-            SettingsButton.Initialize(Theme.ButtonStyle);
-            OpenQuestionManagerButton.Initialize(Theme.ButtonStyle);
-            StartRandom.Initialize(Theme.ButtonStyle);
-            QuitButton.Initialize(Theme.ButtonStyle);
+            context.ThemeProvider.ThemeChanged += OnThemeChanged;
 
-            SettingsButton.OnClick += OnSettingsButtonClicked;
-            OpenQuestionManagerButton.OnClick += OnOpenQuestionManagerButtonClicked;
-            StartRandom.OnClick += OnStartRandomButtonClicked;
-            QuitButton.OnClick += OnQuitButtonClicked;
-        }
+            settingsButton = CreateButton("Settings", OnSettingsButtonClicked);
+            openQuestionManagerButton = CreateButton("Question Manager", OnOpenQuestionManagerButtonClicked);
+            startRandomButton = CreateButton("Start Random", OnStartRandomButtonClicked);
+            quitButton = CreateButton("Quit", OnQuitButtonClicked);
 
-        private void OnOpenQuestionManagerButtonClicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnStartRandomButtonClicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnQuitButtonClicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnSettingsButtonClicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnThemeChanged(object sender, UITheme e)
-        {
-            SettingsButton.SetTheme(Theme.ButtonStyle);
-            OpenQuestionManagerButton.SetTheme(Theme.ButtonStyle);
-            StartRandom.SetTheme(Theme.ButtonStyle);
-            QuitButton.SetTheme(Theme.ButtonStyle);
+            Hide();
         }
 
         /// <summary>
-        ///     Shows the main menu screen.
+        ///     Shows the navigation composite.
         /// </summary>
-        public override void Show()
-        {
-            base.Show();
-        }
+        public void Show() => style.display = DisplayStyle.Flex;
 
         /// <summary>
-        ///     Hides the main menu screen.
+        ///     Hides the navigation composite.
         /// </summary>
-        public override void Hide()
+        public void Hide() => style.display = DisplayStyle.None;
+
+        /// <inheritdoc />
+        public void Dispose()
         {
-            base.Hide();
+            context.ThemeProvider.ThemeChanged -= OnThemeChanged;
+
+            settingsButton.OnClick -= OnSettingsButtonClicked;
+            openQuestionManagerButton.OnClick -= OnOpenQuestionManagerButtonClicked;
+            startRandomButton.OnClick -= OnStartRandomButtonClicked;
+            quitButton.OnClick -= OnQuitButtonClicked;
+
+            settingsButton.Dispose();
+            openQuestionManagerButton.Dispose();
+            startRandomButton.Dispose();
+            quitButton.Dispose();
+        }
+
+        private UITheme Theme => context.ThemeProvider.CurrentTheme;
+
+        private ButtonControl CreateButton(string text, EventHandler onClick)
+        {
+            var control = new ButtonControl(Theme.ButtonStyle) { Text = text };
+            control.OnClick += onClick;
+            Add(control);
+            return control;
+        }
+
+        private void OnThemeChanged(object? sender, UITheme e)
+        {
+            settingsButton.SetTheme(e.ButtonStyle);
+            openQuestionManagerButton.SetTheme(e.ButtonStyle);
+            startRandomButton.SetTheme(e.ButtonStyle);
+            quitButton.SetTheme(e.ButtonStyle);
+        }
+
+        private void OnSettingsButtonClicked(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnOpenQuestionManagerButtonClicked(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnStartRandomButtonClicked(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnQuitButtonClicked(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
+
