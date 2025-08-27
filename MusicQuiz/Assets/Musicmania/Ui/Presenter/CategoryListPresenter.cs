@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Musicmania.Data.Categories;
 using Musicmania.Settings.Ui;
-using Musicmania.Ui.Controls;
 using UnityEngine.UIElements;
 
 namespace Musicmania.Ui.Presenter
@@ -16,7 +15,7 @@ namespace Musicmania.Ui.Presenter
     {
         private readonly MusicmaniaContext context;
 
-        private readonly List<ButtonControl> categoryButtons = new();
+        private readonly List<CategoryPresenter> categoryPresenters = new();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CategoryListPresenter"/> class.
@@ -38,9 +37,9 @@ namespace Musicmania.Ui.Presenter
 
             foreach (var category in categories.Categories)
             {
-                var control = new ButtonControl(Theme.ButtonStyle) { Text = category.Name };
-                Add(control);
-                categoryButtons.Add(control);
+                var presenter = new CategoryPresenter(category, Theme.ButtonStyle, context);
+                Add(presenter);
+                categoryPresenters.Add(presenter);
             }
         }
 
@@ -49,9 +48,9 @@ namespace Musicmania.Ui.Presenter
         {
             context.ThemeProvider.ThemeChanged -= OnThemeChanged;
 
-            foreach (var control in categoryButtons)
+            foreach (var presenter in categoryPresenters)
             {
-                control.Dispose();
+                presenter.Dispose();
             }
         }
 
@@ -59,9 +58,9 @@ namespace Musicmania.Ui.Presenter
 
         private void OnThemeChanged(object? sender, UITheme e)
         {
-            foreach (var control in categoryButtons)
+            foreach (var presenter in categoryPresenters)
             {
-                control.SetTheme(e.ButtonStyle);
+                presenter.SetTheme(e.ButtonStyle);
             }
         }
     }

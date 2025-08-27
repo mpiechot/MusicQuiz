@@ -1,76 +1,102 @@
-﻿#nullable enable
+#nullable enable
 
 using Cysharp.Threading.Tasks;
-using Musicmania.Data.Categories;
-using Musicmania.Exceptions;
-using Musicmania.ResourceManagement;
-using Musicmania.Utils;
 using System;
 using System.Threading;
-using TMPro;
+using Musicmania;
+using Musicmania.Data.Categories;
+using Musicmania.ResourceManagement;
+using Musicmania.Settings.Ui;
+using Musicmania.Ui.Controls;
+using Musicmania.Utils;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace Musicmania.Ui.Presenter
 {
-    public class CategoryPresenter : MonoBehaviour
+    /// <summary>
+    ///     Presents a category including its thumbnail using a themed <see cref="ButtonControl"/>.
+    /// </summary>
+    public sealed class CategoryPresenter : VisualElement, IDisposable
     {
-        [SerializeField]
-        private Image? thumbnailImage;
+        private readonly ButtonControl button;
+        private readonly Image thumbnailImage;
+        private readonly CancellableTaskCollection taskCollection = new();
+        private readonly ResourceHandle<Sprite> thumbnailResourceHandle;
+        private readonly MusicmaniaContext context;
 
-        [SerializeField]
-        private TMP_Text? categoryNameText;
-
-        private ResourceHandle<Sprite>? thumbnailResourceHandle;
-        private CancellableTaskCollection taskCollection = new();
-        private bool isInitialized;
-
-        public event EventHandler? CategoryClicked;
-
-        private Image ThumbnailImage => SerializeFieldNotAssignedException.ThrowIfNull(thumbnailImage);
-
-        private TMP_Text CategoryNameText => SerializeFieldNotAssignedException.ThrowIfNull(categoryNameText);
-
-        private ResourceHandle<Sprite> ThumbnailResourceHandle => NotInitializedException.ThrowIfNull(thumbnailResourceHandle);
-
-        public void Initialize(CategoryData categoryData, MusicmaniaContext context)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CategoryPresenter"/> class.
+        /// </summary>
+        /// <param name="category">The category to display.</param>
+        /// <param name="buttonStyle">The style to apply to the button.</param>
+        /// <param name="contextToUse">The application context.</param>
+        /// <exception cref="ArgumentNullException">Thrown when a required argument is null.</exception>
+        public CategoryPresenter(CategoryData category, ButtonStyle buttonStyle, MusicmaniaContext contextToUse)
         {
-            if (isInitialized)
+            Category = category ?? throw new ArgumentNullException(nameof(category));
+            context = contextToUse ?? throw new ArgumentNullException(nameof(contextToUse));
+
+            button = new ButtonControl(buttonStyle ?? throw new ArgumentNullException(nameof(buttonStyle)))
             {
-                return;
-            }
+                Text = category.Name,
+            };
+            button.OnClick += OnButtonClicked;
 
-            CategoryNameText.text = categoryData.Name;
-            thumbnailResourceHandle = context.ResourceManager.GetResource<Sprite>(categoryData.ThumbnailResourceKey);
-            taskCollection.StartExecution(InitializeAsync);
-            isInitialized = true;
+            thumbnailImage = new Image();
+
+            Add(thumbnailImage);
+            Add(button);
+
+            thumbnailResourceHandle = context.ResourceManager.GetResource<Sprite>(category.ThumbnailResourceKey);
+            taskCollection.StartExecution(LoadThumbnailAsync);
         }
 
-        public void OnCategoryClicked()
+        /// <summary>
+        ///     Gets the category represented by this presenter.
+        /// </summary>
+        public CategoryData Category { get; }
+
+        /// <summary>
+        ///     Applies a new theme to the underlying button.
+        /// </summary>
+        /// <param name="style">The style to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="style"/> is null.</exception>
+        public void SetTheme(ButtonStyle style)
         {
-            CategoryClicked?.Invoke(this, EventArgs.Empty);
+            button.SetTheme(style ?? throw new ArgumentNullException(nameof(style)));
         }
 
-        private void OnDestroy()
+        /// <summary>
+        ///     Releases resources used by the presenter.
+        /// </summary>
+        public void Dispose()
         {
             taskCollection.Dispose();
 
-            ThumbnailImage.sprite = null;
+            thumbnailImage.sprite = null;
+            thumbnailResourceHandle.Unload();
 
-            ThumbnailResourceHandle.Unload();
+            button.OnClick -= OnButtonClicked;
+            button.Dispose();
         }
 
-        private async UniTask InitializeAsync(CancellationToken cancellationToken)
+        private async UniTask LoadThumbnailAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var thumbnail = await ThumbnailResourceHandle.LoadAsync(cancellationToken);
-                ThumbnailImage.sprite = thumbnail;
+                var sprite = await thumbnailResourceHandle.LoadAsync(cancellationToken);
+                thumbnailImage.sprite = sprite;
             }
             catch (Exception ex)
             {
                 Debug.LogError($"Failed to load category thumbnail: {ex.Message}");
             }
+        }
+
+        private void OnButtonClicked(object? sender, EventArgs e)
+        {
+            context.ScreenManager.ShowQuizScreen(Category);
         }
     }
 }
