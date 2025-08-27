@@ -1,196 +1,122 @@
-﻿#nullable enable
+#nullable enable
 
-using Musicmania.Data.Categories;
-using Musicmania.Disks;
-using Musicmania.Exceptions;
-using Musicmania.Extensions;
-using Musicmania.Questions;
-using Musicmania.SaveManagement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
+using Musicmania;
+using Musicmania.Data.Categories;
+using Musicmania.Exceptions;
+using Musicmania.Questions;
+using Musicmania.Ui.Controls;
+using Musicmania.Ui.Presenter;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Musicmania.Ui.Screens
 {
+    /// <summary>
+    ///     Screen for running the music quiz.
+    /// </summary>
     public class QuizScreen : ScreenBase
     {
         [SerializeField]
-        private RectTransform? questionParent;
+        private UIDocument? document;
 
-        [SerializeField]
-        private TMP_InputField? answerInputField;
-
-        [SerializeField]
-        private TMP_Text? askForExactNameLabel;
-
-        private QuestionDisk? diskPrefab;
-
-        private QuestionDisk? selectedQuestionDisk;
-
+        private QuizScreenNavigationComposite? navigation;
+        private QuestionListPresenter? questionListPresenter;
+        private TextInputControl? answerInput;
+        private QuestionPresenter? selectedQuestion;
         private CategoryData? selectedCategory;
 
-        private List<QuestionDisk> currentQuestionDisks = new();
+        private UIDocument Document => SerializeFieldNotAssignedException.ThrowIfNull(document);
 
-        private IReadOnlyList<QuestionData>? unorderedQuestions;
+        private QuizScreenNavigationComposite Navigation => NotInitializedException.ThrowIfNull(navigation);
 
-        private TMP_InputField AnswerInputField => answerInputField != null ? answerInputField : throw new SerializeFieldNotAssignedException();
+        private TextInputControl AnswerInput => NotInitializedException.ThrowIfNull(answerInput);
 
-        private TMP_Text AskForExactNameLabel => SerializeFieldNotAssignedException.ThrowIfNull(askForExactNameLabel, nameof(askForExactNameLabel));
-
-        private int[] diskYOffsets = new int[] { 40, 0, -40, -100, -140, -190 };
-
+        /// <inheritdoc />
         public override void Initialize(MusicmaniaContext context)
         {
             base.Initialize(context);
-            //diskPrefab = Context.Settings.ScreenPrefabProvider.QuestionDiskPrefab;
 
-            AskForExactNameLabel.text = string.Empty;
+            var root = Document.rootVisualElement;
+            var navigationRoot = root.Q("quizScreenNavigation") ?? root;
+            navigation = new QuizScreenNavigationComposite(context, navigationRoot);
+
+            var inputRoot = root.Q("answerInputRoot") ?? root;
+            answerInput = new TextInputControl();
+            inputRoot.Add(answerInput);
+            answerInput.OnTextChanged += OnAnswerChanged;
         }
 
         /// <summary>
-        ///     Shows the QuizScreen.
+        ///     Shows the quiz screen for the given category with the provided questions.
         /// </summary>
-        public void Show(CategoryData categoryToload)
+        public void Show(CategoryData categoryToLoad, IReadOnlyList<QuestionData> questions)
         {
-            selectedCategory = categoryToload;
+            selectedCategory = categoryToLoad ?? throw new ArgumentNullException(nameof(categoryToLoad));
 
-            CreateQuestionDisks();
+            var root = Document.rootVisualElement;
+            var listRoot = root.Q("questionList") ?? root;
+
+            questionListPresenter?.Dispose();
+            questionListPresenter = new QuestionListPresenter(Context, listRoot, questions, selectedCategory.Name);
+            questionListPresenter.QuestionClicked += OnQuestionClicked;
+
+            AnswerInput.Text = string.Empty;
 
             base.Show();
+            Navigation.Show();
         }
+
+        /// <summary>
+        ///     Shows the quiz screen with no questions.
+        /// </summary>
+        public void Show(CategoryData categoryToLoad) => Show(categoryToLoad, Array.Empty<QuestionData>());
 
         /// <inheritdoc />
         public override void Hide()
         {
+            Navigation.Hide();
+
+            questionListPresenter?.QuestionClicked -= OnQuestionClicked;
+            questionListPresenter?.Dispose();
+            questionListPresenter = null;
+
             base.Hide();
-
-            //if (unorderedQuestions == null)
-            //{
-            //    return;
-            //}
-
-            //Context.QuestionStorage.SaveQuestions(unorderedQuestions);
-
-            //// Cleanup Questions
-            //if (currentQuestionDisks.Count > 0)
-            //{
-            //    foreach (var questionDisk in currentQuestionDisks)
-            //    {
-            //        questionDisk.DiskClicked -= OnDiskClicked;
-            //        Destroy(questionDisk.gameObject);
-            //    }
-
-            //    currentQuestionDisks.Clear();
-            //}
         }
 
-        private void CreateQuestionDisks()
+        private void OnQuestionClicked(object? sender, QuestionPresenter presenter)
         {
-            //if (selectedCategory == null)
-            //{
-            //    throw new InvalidOperationException("No category selected.");
-            //}
-
-            //unorderedQuestions = Context.QuestionStorage.GetAllQuestionsWithTags(selectedCategory.Tags);
-
-            //var questionsToUse = OrderQuestions(unorderedQuestions);
-
-            //SerializeFieldNotAssignedException.ThrowIfNull(diskPrefab, nameof(diskPrefab));
-
-            //for (var questionPosition = 0; questionPosition < questionsToUse.Count(); questionPosition++)
-            //{
-            //    var questionData = questionsToUse[questionPosition];
-
-            //    var disk = Instantiate(diskPrefab, questionParent);
-            //    disk.Initialize((questionPosition + 1) + "", Context);
-            //    disk.DiskClicked += OnDiskClicked;
-            //    disk.AssignData(questionData);
-            //    disk.Data.Position = questionPosition;
-            //    var randomDiskOffset = UnityEngine.Random.Range(0, diskYOffsets.Length);
-            //    disk.SetDiskYOffset(diskYOffsets[randomDiskOffset]);
-
-            //    if (!string.IsNullOrEmpty(questionData.LastAnswer))
-            //    {
-            //        disk.CheckAnswer(questionData.LastAnswer);
-            //    }
-
-            //    currentQuestionDisks.Add(disk);
-            //    Debug.Log("Created Question Disk for: " + questionData.Name);
-            //}
+            selectedQuestion = presenter;
+            var save = presenter.GetSaveData();
+            AnswerInput.Text = save?.LastAnswer ?? string.Empty;
         }
 
-        private static IReadOnlyList<QuestionData> OrderQuestions(IReadOnlyList<QuestionData>? questions)
+        private void OnAnswerChanged(object? sender, string text)
         {
-            //var orderedQuestions = new List<QuestionData>();
-            //var questionsToInsert = questions.Where(question => question.Position == -1).ToList();
-
-            //var groupedQuestions = questions
-            //    .Where(question => question.Position != -1)
-            //    .GroupBy(question => question.Difficulty)
-            //    .OrderBy(group => group.Key)
-            //    .ToList();
-
-            //foreach (var group in groupedQuestions)
-            //{
-            //    group.OrderBy(question => question.Position);
-
-            //    foreach (var question in group)
-            //    {
-            //        orderedQuestions.Add(question);
-            //    }
-
-            //    var questionsToInsertInGroup = questionsToInsert.Where(question => question.Difficulty == group.Key).Shuffle().ToList();
-            //    if (questionsToInsertInGroup.Count > 0)
-            //    {
-            //        foreach (var newQuestion in questionsToInsertInGroup)
-            //        {
-            //            var position = group.Max(question => question.Position) + 1;
-            //            //orderedQuestions.Add(newQuestion);
-            //        }
-            //    }
-            //}
-
-
-            //return orderedQuestions;
-            return null;
-        }
-
-        /// <summary>
-        ///    Called by Unity when the CheckAnswer button is pressed.
-        /// </summary>
-        public void OnCheckAnswerPressed()
-        {
-            selectedQuestionDisk?.CheckAnswer(AnswerInputField.text);
-        }
-
-        /// <summary>
-        ///    Called by Unity when the back button is clicked.
-        /// </summary>
-        public void OnBackToCategoryScreenClicked()
-        {
-            foreach (var question in currentQuestionDisks)
+            if (selectedQuestion == null)
             {
-                //Context.QuestionSaveContainerManager.SaveQuestionSaves(question.Data.QuizSaves, question.Data.Name);
+                return;
             }
 
-            Context.AudioPlayer.Stop();
+            selectedQuestion.UpdateSaveData(text);
 
-            Context.ScreenManager.ShowMainScreen();
+            if (string.Equals(selectedQuestion.Question.Name, text, StringComparison.OrdinalIgnoreCase))
+            {
+                OnCorrectAnswer();
+            }
         }
 
-        private void OnDiskClicked(object sender, EventArgs args)
+        private void OnCorrectAnswer()
         {
-            if (sender is not QuestionDisk questionDisk)
-            {
-                throw new InvalidOperationException($"Expected a QuestionDisk, but got {sender?.GetType().Name}.");
-            }
+            // Future implementation for correct answers.
+        }
 
-            //AnswerInputField.text = questionDisk.Data.LastAnswer;
-            AskForExactNameLabel.text = questionDisk.Data.AskForExactName ? "Bitte nenne den exakten Namen" : "Bitte nenne nur die Serie und nicht den ggf. exakten Teil des Spiels";
-
-            selectedQuestionDisk = questionDisk;
+        private void OnDestroy()
+        {
+            navigation?.Dispose();
+            questionListPresenter?.Dispose();
+            answerInput?.Dispose();
         }
     }
 }

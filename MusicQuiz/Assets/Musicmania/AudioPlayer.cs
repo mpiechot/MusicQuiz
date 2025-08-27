@@ -1,10 +1,12 @@
 ﻿#nullable enable
 
 using Musicmania.Exceptions;
+using Musicmania.ResourceManagement;
+using Musicmania.Utils;
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Musicmania
 {
@@ -15,40 +17,39 @@ namespace Musicmania
 
         private AudioSource AudioSource => SerializeFieldNotAssignedException.ThrowIfNull(audioSource, nameof(audioSource));
 
-        private AssetReferenceT<AudioClip>? currentClip;
+        private ResourceHandle<AudioClip>? currentHandle;
+        private AudioClip? currentClip;
+        private readonly CancellableTaskCollection taskCollection = new();
 
-        private AsyncOperationHandle<AudioClip>? currentHandle;
-
-        public void LoadAndPlay(AssetReferenceT<AudioClip> audioToLoad)
+        /// <summary>
+        ///     Loads the given audio clip and starts playback.
+        /// </summary>
+        /// <param name="audioToLoad">Handle to the audio resource to play.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="audioToLoad"/> is null.</exception>
+        public void LoadAndPlay(ResourceHandle<AudioClip> audioToLoad)
         {
-            // If the audio clip is already loaded and the handle is valid, play the audio clip.
-            if (currentClip == audioToLoad && currentHandle.HasValue
-                && currentHandle.Value.IsValid()
-                && currentHandle.Value.Status == AsyncOperationStatus.Succeeded)
+            if (audioToLoad == null)
+            {
+                throw new ArgumentNullException(nameof(audioToLoad));
+            }
+
+            if (currentHandle == audioToLoad && audioToLoad.IsLoaded)
             {
                 Restart();
                 return;
             }
 
-            if (currentClip != null && currentClip != audioToLoad)
-            {
-                currentClip?.ReleaseAsset();
-            }
+            currentHandle = audioToLoad;
 
-            currentClip = audioToLoad;
-
-            currentHandle = audioToLoad.LoadAssetAsync();
-            currentHandle.Value.Completed += OnAudioClipLoaded;
+            taskCollection.CancelExecution();
+            taskCollection.StartExecution(ct => LoadAndPlayAsync(audioToLoad, ct));
         }
 
-        private void OnAudioClipLoaded(AsyncOperationHandle<AudioClip> handle)
+        private async UniTask LoadAndPlayAsync(ResourceHandle<AudioClip> handle, CancellationToken cancellationToken)
         {
-            if (handle.Status != AsyncOperationStatus.Succeeded)
-            {
-                throw new InvalidOperationException($"Failed to load AudioClip: {handle.OperationException?.Message}");
-            }
-
-            Play(handle.Result);
+            var clip = await handle.LoadAsync(cancellationToken);
+            currentClip = clip;
+            Play(clip);
         }
 
         private void Play(AudioClip clip)
@@ -57,20 +58,31 @@ namespace Musicmania
             AudioSource.Play();
         }
 
+        /// <summary>
+        ///     Stops playback of the current audio clip.
+        /// </summary>
         public void Stop()
         {
             AudioSource.Stop();
         }
 
+        /// <summary>
+        ///     Restarts playback of the loaded audio clip if available.
+        /// </summary>
         public void Restart()
         {
-            if (currentClip == null || !currentClip.IsDone)
+            if (currentClip == null)
             {
                 return;
             }
 
             AudioSource.Stop();
             AudioSource.Play();
+        }
+
+        private void OnDestroy()
+        {
+            taskCollection.Dispose();
         }
     }
 }
