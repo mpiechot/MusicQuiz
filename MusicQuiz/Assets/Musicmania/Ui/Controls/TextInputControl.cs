@@ -15,7 +15,7 @@ namespace Musicmania.Ui.Controls
         /// </summary>
         public TextInputControl()
         {
-            RegisterValueChangedCallback(OnValueChanged);
+            RegisterCallback<ChangeEvent<string>>(OnValueChanged);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Musicmania.Ui.Controls
         /// <inheritdoc />
         public void Dispose()
         {
-            UnregisterValueChangedCallback(OnValueChanged);
+            UnregisterCallback<ChangeEvent<string>>(OnValueChanged);
             GC.SuppressFinalize(this);
         }
 
