@@ -81,9 +81,8 @@ namespace Musicmania.Ui.Screens
         {
             Navigation.Hide();
 
-            var presenter = QuestionListPresenter;
-            presenter.QuestionClicked -= OnQuestionClicked;
-            presenter.Dispose();
+            QuestionListPresenter.QuestionClicked -= OnQuestionClicked;
+            QuestionListPresenter.Dispose();
             questionListPresenter = null;
 
             base.Hide();
