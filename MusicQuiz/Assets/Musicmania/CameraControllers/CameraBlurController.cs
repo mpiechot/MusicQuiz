@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Musicmania.CameraControllers
 {
@@ -33,21 +34,38 @@ namespace Musicmania.CameraControllers
         }
 
         /// <summary>
-        ///     Renders the scene with the blur effect.
+        ///     Subscribes to camera rendering callbacks.
         /// </summary>
-        /// <param name="src">Source render texture.</param>
-        /// <param name="dest">Destination render texture.</param>
-        private void OnRenderImage(RenderTexture src, RenderTexture dest)
+        private void OnEnable()
         {
-            if (blurMaterial != null)
+            RenderPipelineManager.endCameraRendering += ApplyBlur;
+        }
+
+        /// <summary>
+        ///     Removes the camera rendering callbacks.
+        /// </summary>
+        private void OnDisable()
+        {
+            RenderPipelineManager.endCameraRendering -= ApplyBlur;
+        }
+
+        /// <summary>
+        ///     Applies the blur effect after the camera finishes rendering.
+        /// </summary>
+        /// <param name="context">Current render context.</param>
+        /// <param name="camera">Camera being rendered.</param>
+        private void ApplyBlur(ScriptableRenderContext context, Camera camera)
+        {
+            if (blurMaterial == null || camera.cameraType != CameraType.Game)
             {
-                blurMaterial.SetFloat("_BlurAmount", blurAmount);
-                Graphics.Blit(src, dest, blurMaterial);
+                return;
             }
-            else
-            {
-                Graphics.Blit(src, dest);
-            }
+
+            blurMaterial.SetFloat("_BlurAmount", blurAmount);
+            CommandBuffer cmd = CommandBufferPool.Get(nameof(CameraBlurController));
+            cmd.Blit(BuiltinRenderTextureType.CurrentActive, BuiltinRenderTextureType.CameraTarget, blurMaterial);
+            context.ExecuteCommandBuffer(cmd);
+            CommandBufferPool.Release(cmd);
         }
     }
 }
