@@ -24,6 +24,9 @@ namespace Musicmania.CameraControllers
         [SerializeField]
         private Material? blurMaterial;
 
+        private static readonly int BlurAmountId = Shader.PropertyToID("_BlurAmount");
+        private static readonly int TempTextureId = Shader.PropertyToID("_CameraBlurTemp");
+
         /// <summary>
         ///     Gets or sets the amount of blur to apply.
         /// </summary>
@@ -38,6 +41,15 @@ namespace Musicmania.CameraControllers
         /// </summary>
         private void OnEnable()
         {
+            if (blurMaterial == null)
+            {
+                Shader? shader = Shader.Find("Custom/CameraBlur");
+                if (shader != null)
+                {
+                    blurMaterial = new Material(shader);
+                }
+            }
+
             RenderPipelineManager.endCameraRendering += ApplyBlur;
         }
 
@@ -61,11 +73,14 @@ namespace Musicmania.CameraControllers
                 return;
             }
 
-            blurMaterial.SetFloat("_BlurAmount", blurAmount);
-            CommandBuffer cmd = CommandBufferPool.Get(nameof(CameraBlurController));
-            cmd.Blit(BuiltinRenderTextureType.CurrentActive, BuiltinRenderTextureType.CameraTarget, blurMaterial);
+            blurMaterial.SetFloat(BlurAmountId, blurAmount);
+
+            using CommandBuffer cmd = new CommandBuffer { name = nameof(CameraBlurController) };
+            cmd.GetTemporaryRT(TempTextureId, camera.pixelWidth, camera.pixelHeight, 0, FilterMode.Bilinear);
+            cmd.Blit(BuiltinRenderTextureType.CameraTarget, TempTextureId);
+            cmd.Blit(TempTextureId, BuiltinRenderTextureType.CameraTarget, blurMaterial);
+            cmd.ReleaseTemporaryRT(TempTextureId);
             context.ExecuteCommandBuffer(cmd);
-            CommandBufferPool.Release(cmd);
         }
     }
 }
