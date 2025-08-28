@@ -45,15 +45,18 @@ Shader "Custom/CameraBlur"
 
             half4 frag (Varyings i) : SV_Target
             {
-                float2 uv = i.uv;
-                float2 texel = _MainTex_TexelSize.xy * (_BlurAmount * 10.0);
-
-                half4 col = half4(0,0,0,0);
-                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + texel * float2(-1.0, -1.0));
-                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + texel * float2(-1.0,  1.0));
-                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + texel * float2( 1.0, -1.0));
-                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + texel * float2( 1.0,  1.0));
-                return col * 0.25;
+                float2 offset = _BlurAmount * 10.0 * _MainTex_TexelSize.xy;
+                half4 col = half4(0, 0, 0, 0);
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-offset.x, -offset.y));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0, -offset.y));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(offset.x, -offset.y));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-offset.x, 0));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(offset.x, 0));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-offset.x, offset.y));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0, offset.y));
+                col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(offset.x, offset.y));
+                return col / 9.0;
             }
             ENDHLSL
         }

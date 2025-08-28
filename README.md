@@ -9,11 +9,10 @@ MusicQuiz is a Unity-based **quiz management** app built for party games and sma
 - Modular architecture that encourages contributions to questions, categories or entire gameplay modes
 
 ## Getting Started
-1. Install [Unity](https://unity.com/) (2021 LTS or newer is recommended).
+1. Install [Unity](https://unity.com/) version **6000.1.3f1** or newer. The project uses the **Universal Render Pipeline (URP) 17.1.0**, **Post Processing 3.4.0**, and **UI Toolkit (UnityEngine.UIElements)** packages by default.
 2. Clone this repository and open the `MusicQuiz/` folder with the Unity editor.
 3. Play the sample scene and add your own categories or question files under `Assets/StreamingAssets`.
-
-See the [CodexRules](CodexRules/README.md) folder for development rules and conventions.
+See [AGENTS.md](AGENTS.md) for development rules and conventions.
 
 ## Project Structure
 - `MusicQuiz/` – Unity project root
