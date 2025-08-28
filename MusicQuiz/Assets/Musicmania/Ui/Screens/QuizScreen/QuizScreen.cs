@@ -120,11 +120,8 @@ namespace Musicmania.Ui.Screens
             navigation?.Dispose();
             questionListPresenter?.Dispose();
 
-            if (answerInput != null)
-            {
-                AnswerInput.OnTextChanged -= OnAnswerChanged;
-                AnswerInput.Dispose();
-            }
+            AnswerInput.OnTextChanged -= OnAnswerChanged;
+            AnswerInput.Dispose();
         }
     }
 }
