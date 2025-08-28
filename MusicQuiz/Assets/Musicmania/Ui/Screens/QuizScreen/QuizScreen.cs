@@ -33,6 +33,9 @@ namespace Musicmania.Ui.Screens
 
         private TextInputControl AnswerInput => NotInitializedException.ThrowIfNull(answerInput);
 
+        private QuestionListPresenter QuestionListPresenter =>
+            ShowNotCalledException.ThrowIfNull(questionListPresenter);
+
         /// <inheritdoc />
         public override void Initialize(MusicmaniaContext context)
         {
@@ -78,8 +81,9 @@ namespace Musicmania.Ui.Screens
         {
             Navigation.Hide();
 
-            questionListPresenter?.QuestionClicked -= OnQuestionClicked;
-            questionListPresenter?.Dispose();
+            var presenter = QuestionListPresenter;
+            presenter.QuestionClicked -= OnQuestionClicked;
+            presenter.Dispose();
             questionListPresenter = null;
 
             base.Hide();
@@ -116,7 +120,12 @@ namespace Musicmania.Ui.Screens
         {
             navigation?.Dispose();
             questionListPresenter?.Dispose();
-            answerInput?.Dispose();
+
+            if (answerInput != null)
+            {
+                answerInput.OnTextChanged -= OnAnswerChanged;
+                answerInput.Dispose();
+            }
         }
     }
 }
