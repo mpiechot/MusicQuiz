@@ -15,6 +15,7 @@ Shader "Custom/CameraBlur"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #include "UnityCG.cginc"
 
             sampler2D _MainTex;
             float4 _MainTex_TexelSize;
