@@ -28,7 +28,7 @@ namespace Musicmania.Ui.Controls
         /// </summary>
         public string Text
         {
-            get => base.value;
+            get => value;
             set => SetValueWithoutNotify(value);
         }
 

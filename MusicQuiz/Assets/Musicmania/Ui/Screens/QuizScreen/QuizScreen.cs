@@ -122,8 +122,8 @@ namespace Musicmania.Ui.Screens
 
             if (answerInput != null)
             {
-                answerInput.OnTextChanged -= OnAnswerChanged;
-                answerInput.Dispose();
+                AnswerInput.OnTextChanged -= OnAnswerChanged;
+                AnswerInput.Dispose();
             }
         }
     }
