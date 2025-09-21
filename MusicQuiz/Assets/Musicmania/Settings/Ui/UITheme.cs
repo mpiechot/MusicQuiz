@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using Musicmania.Exceptions;
 using UnityEngine;
 
 namespace Musicmania.Settings.Ui
@@ -7,8 +8,10 @@ namespace Musicmania.Settings.Ui
     [CreateAssetMenu(fileName = "UITheme", menuName = "Musicmania/UI/Theme")]
     public sealed class UITheme : ScriptableObject
     {
-        [field: SerializeField]
-        public ButtonStyle ButtonStyle { get; private set; } = null!;
+        [SerializeField]
+        private ButtonStyle? buttonStyle;
+
+        public ButtonStyle ButtonStyle => SerializeFieldNotAssignedException.ThrowIfNull(buttonStyle);
 
         private void OnEnable() => EnsureDefaults();
 #if UNITY_EDITOR
@@ -17,9 +20,9 @@ namespace Musicmania.Settings.Ui
 
         public void EnsureDefaults()
         {
-            if (ButtonStyle == null)
+            if (buttonStyle == null)
             {
-                ButtonStyle = ScriptableObject.CreateInstance<ButtonStyle>();
+                buttonStyle = ScriptableObject.CreateInstance<ButtonStyle>();
                 ButtonStyle.name = "RuntimeDefaultButtonStyle";
                 ButtonStyle.FontSize = 24;
                 ButtonStyle.TextColor = Color.white;

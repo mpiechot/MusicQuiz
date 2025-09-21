@@ -22,7 +22,7 @@ namespace Musicmania.Ui.Screens
         public override void Initialize(MusicmaniaContext contextToUse)
         {
             base.Initialize(contextToUse);
-            //diskPrefab = Context.Settings.ScreenPrefabProvider.CategoryDiskPrefab;
+            //diskPrefab = Context.Settings.ScreenPrefabCollection.CategoryDiskPrefab;
         }
 
         /// <inheritdoc />
