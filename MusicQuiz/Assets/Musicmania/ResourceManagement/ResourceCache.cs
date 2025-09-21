@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using Musicmania.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -14,7 +15,21 @@ namespace Musicmania.ResourceManagement
     {
         private readonly Dictionary<string, IResourceHandle> cache = new();
 
-        private readonly ResourceHandleFactory handleFactory = new();
+        private readonly ResourceHandleFactory handleFactory;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ResourceCache"/> class.
+        /// </summary>
+        /// <param name="resourceSettings">The settings that determine how resource providers are configured.</param>
+        public ResourceCache(ResourceSettings resourceSettings)
+        {
+            if (resourceSettings == null)
+            {
+                throw new ArgumentNullException(nameof(resourceSettings));
+            }
+
+            handleFactory = new ResourceHandleFactory(resourceSettings);
+        }
 
         /// <summary>
         /// Gets a resource handle for the specified prefix and path.

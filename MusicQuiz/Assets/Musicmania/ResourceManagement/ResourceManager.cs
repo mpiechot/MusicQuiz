@@ -12,12 +12,13 @@ namespace Musicmania.ResourceManagement
     /// </summary>
     public class ResourceManager : IDisposable
     {
-        private readonly ResourceCache cache = new();
-        private ResourceSettings resourceSettings;
+        private readonly ResourceCache cache;
+        private readonly ResourceSettings resourceSettings;
 
         public ResourceManager(ResourceSettings resourceSettings)
         {
-            this.resourceSettings = resourceSettings;
+            this.resourceSettings = resourceSettings ?? throw new ArgumentNullException(nameof(resourceSettings));
+            cache = new ResourceCache(this.resourceSettings);
         }
 
         /// <summary>
