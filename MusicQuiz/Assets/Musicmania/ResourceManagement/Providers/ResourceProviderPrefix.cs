@@ -12,5 +12,6 @@ namespace Musicmania.ResourceManagement.Providers
         Web,
         AssetBundle,
         Addressable,
+        Spotify,
     }
 }
