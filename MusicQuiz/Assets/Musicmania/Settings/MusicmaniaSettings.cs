@@ -1,7 +1,7 @@
 ﻿#nullable enable
 
+using Musicmania.Exceptions;
 using Musicmania.Settings.Ui;
-using Musicmania.Utils;
 using UnityEngine;
 
 namespace Musicmania.Settings
@@ -9,34 +9,49 @@ namespace Musicmania.Settings
     [CreateAssetMenu(fileName = "MusicmaniaSettings", menuName = "Musicmania/Settings")]
     public class MusicmaniaSettings : ScriptableObject
     {
+        [SerializeField]
+        private ResourceSettings? resourceSettings;
+
+        [SerializeField]
+        private ScreenPrefabCollection? screenPrefabCollection;
+
+        [SerializeField]
+        private DataPrefabCollection? dataPrefabCollection;
+
+        [SerializeField]
+        private ColorProfile? colorProfile;
+
+        [SerializeField]
+        private UITheme? uiTheme;
+
         /// <summary>
         ///    Gets the resource settings, containing information about where resources should be loaded/saved from/to.
         /// </summary>
-        [field: SerializeField]
-        public ResourceSettings ResourceSettings { get; private set; } = null!;
+        public ResourceSettings ResourceSettings =>
+            SerializeFieldNotAssignedException.ThrowIfNull(resourceSettings);
 
         /// <summary>
-        ///   Gets the screen prefab provider, containing references to the prefabs used for different screens in the app.
+        ///   Gets the screen prefab collection, containing references to the prefabs used for different screens in the app.
         /// </summary>
-        [field: SerializeField]
-        public ScreenPrefabProvider ScreenPrefabProvider { get; private set; } = null!;
+        public ScreenPrefabCollection ScreenPrefabCollection =>
+            SerializeFieldNotAssignedException.ThrowIfNull(screenPrefabCollection);
 
         /// <summary>
-        ///   Gets the data prefab provider, containing references to the prefabs used for different data from <see cref="Data"/>.
+        ///   Gets the data prefab collection, containing references to the prefabs used for different data from <see cref="Data"/>.
         /// </summary>
-        [field: SerializeField]
-        public DataPrefabProvider DataPrefabProvider { get; private set; } = null!;
+        public DataPrefabCollection DataPrefabCollection =>
+            SerializeFieldNotAssignedException.ThrowIfNull(dataPrefabCollection);
 
         /// <summary>
         ///   Gets the color profile, containing information about the colors used in the app.
         /// </summary>
-        [field: SerializeField]
-        public ColorProfile ColorProfile { get; private set; } = null!;
+        public ColorProfile ColorProfile =>
+            SerializeFieldNotAssignedException.ThrowIfNull(colorProfile);
 
         /// <summary>
         ///   Gets the UI theme, containing information about the theme used in the app.
         /// </summary>
-        [field: SerializeField]
-        public UITheme UiTheme { get; private set; } = null!;
+        public UITheme UiTheme =>
+            SerializeFieldNotAssignedException.ThrowIfNull(uiTheme);
     }
 }

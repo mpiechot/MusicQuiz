@@ -16,8 +16,8 @@ namespace Musicmania.Screens
         public ScreenCreator(MusicmaniaContext context)
         {
             this.context = context;
-            quizScreenPrefab = context.Settings.ScreenPrefabProvider.QuizScreenPrefab;
-            mainScreenPrefab = context.Settings.ScreenPrefabProvider.MainScreenPrefab;
+            quizScreenPrefab = context.Settings.ScreenPrefabCollection.QuizScreenPrefab;
+            mainScreenPrefab = context.Settings.ScreenPrefabCollection.MainScreenPrefab;
         }
 
         public QuizScreen CreateQuizScreen()
